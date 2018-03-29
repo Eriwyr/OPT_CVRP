@@ -1,4 +1,4 @@
-import DataStructure.Client;
+import dataStructure.Client;
 import manageFiles.ParseFiles;
 
 import java.io.FileNotFoundException;

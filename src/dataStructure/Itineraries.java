@@ -7,6 +7,7 @@ import static java.util.stream.Collectors.joining;
 public class Itineraries {
     private LinkedList<Itinerary> itineraries;
 
+
     public Itineraries() {
         System.out.println("Bla");
         LinkedList<Client> clientList1 = new LinkedList<Client>();
@@ -69,16 +70,16 @@ public class Itineraries {
 
     public void invertionBeteweenItineraries(int indexItinerary1, int indexItinerary2, int indexClient1, int indexClient2) {
 
+
         Itinerary itinerary1 = itineraries.get(indexItinerary1);
         Itinerary itinerary2 = itineraries.get(indexItinerary2);
 
         Client client1 = itinerary1.getItinerary().remove(indexClient1);
         Client client2 = itinerary2.getItinerary().remove(indexClient2);
 
-        itinerary1.getItinerary().add(indexClient2, client1);
-        itinerary2.getItinerary().add(indexClient1, client2);
 
-
+        itinerary1.getItinerary().add(indexClient1, client2);
+        itinerary2.getItinerary().add(indexClient2, client1);
     }
 
     public int getNumberOfItineraries() {
@@ -107,6 +108,20 @@ public class Itineraries {
 
     }
 
+    public Itinerary get(int index) {
+        try {
+            return itineraries.get(index);
+
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public int getnumberItinirary() {
+        return itineraries.size();
+    }
 
 
 }

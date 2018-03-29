@@ -7,18 +7,25 @@ public class InversionWithinItinerary implements NeighborhoodStrategie{
 
     @Override
     public void computeNeighbor(Itineraries itineraries) {
+        int quantityItinerary = maxCapacity +1;
 
-        int indexItinerary = random.nextInt(itineraries.getNumberOfItineraries());
+        while (quantityItinerary > maxCapacity) {
 
-        int index1 = random.nextInt(itineraries.getItineraries().get(indexItinerary).getItinerary().size());
-        int index2 = index1;
 
-        while (index2 == index1)
-            index2= random.nextInt(itineraries.getItineraries().get(indexItinerary).getItinerary().size());
+            int indexItinerary = random.nextInt(itineraries.getNumberOfItineraries());
 
-        System.out.println("Modify itinerary "+indexItinerary);
-        System.out.println("Index1 is "+index1);
-        System.out.println("Index2 is "+index2);
-        itineraries.invertionWithinItinerary(indexItinerary, index1, index2);
+            int index1 = random.nextInt(itineraries.getItineraries().get(indexItinerary).getItinerary().size());
+            int index2 = index1;
+
+            while (index2 == index1)
+                index2 = random.nextInt(itineraries.getItineraries().get(indexItinerary).getItinerary().size());
+
+            System.out.println("Modify itinerary " + indexItinerary);
+            System.out.println("Index1 is " + index1);
+            System.out.println("Index2 is " + index2);
+            itineraries.invertionWithinItinerary(indexItinerary, index1, index2);
+
+            quantityItinerary = itineraries.get(indexItinerary).CalcTotalQuantity();
+        }
     }
 }

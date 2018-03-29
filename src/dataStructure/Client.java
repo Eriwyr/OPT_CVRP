@@ -32,8 +32,6 @@ public class Client {
         return quantity;
     }
 
-    private int quantity;
-
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

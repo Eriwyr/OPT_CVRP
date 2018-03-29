@@ -6,25 +6,31 @@ public class InvertionBeteweenItineraries implements NeighborhoodStrategie{
 
     @Override
     public void computeNeighbor(Itineraries itineraries) {
+        int quantityItinerary1 = maxCapacity+1;
+        int quantityItinerary2 = maxCapacity+1;
 
 
+        while (quantityItinerary2 >maxCapacity || quantityItinerary1 >maxCapacity) {
 
-        int indexItinerary1 = random.nextInt(itineraries.getNumberOfItineraries());
-        int indexItinerary2 = indexItinerary1;
 
-        while (indexItinerary2 == indexItinerary1 )
-            indexItinerary2= random.nextInt(itineraries.getNumberOfItineraries());
+            int indexItinerary1 = random.nextInt(itineraries.getNumberOfItineraries());
+            int indexItinerary2 = indexItinerary1;
 
-        int index1 = random.nextInt(itineraries.getItineraries().get(indexItinerary1).getItinerary().size());
-        int index2 = index1;
+            while (indexItinerary2 == indexItinerary1)
+                indexItinerary2 = random.nextInt(itineraries.getNumberOfItineraries());
 
-        while (index1 == index2)
-            index2 = random.nextInt(itineraries.getItineraries().get(indexItinerary2).getItinerary().size());
+            int index1 = random.nextInt(itineraries.getItineraries().get(indexItinerary1).getItinerary().size());
+            int index2 = index1;
 
-        System.out.println("Itinerary1 is "+indexItinerary1);
-        System.out.println("Itinerary2 is "+indexItinerary2);
-        System.out.println("Index1 is "+index1);
-        System.out.println("Index2 is "+index2);
-        itineraries.invertionBeteweenItineraries(indexItinerary1 ,indexItinerary2, index1, index2);
+            while (index1 == index2)
+                index2 = random.nextInt(itineraries.getItineraries().get(indexItinerary2).getItinerary().size());
+
+            System.out.println("Itinerary1 is " + indexItinerary1+", index1 is "+index1+ "(size of Itinerary1 is "+itineraries.getItineraries().get(indexItinerary1).getItinerary().size()+")");
+            System.out.println("Itinerary2 is " + indexItinerary2+", index2 is "+index2+ "(size of Itinerary2 is "+itineraries.getItineraries().get(indexItinerary2).getItinerary().size()+")");
+
+            itineraries.invertionBeteweenItineraries(indexItinerary1, indexItinerary2, index1, index2);
+            quantityItinerary1 = itineraries.get(indexItinerary1).CalcTotalQuantity();
+            quantityItinerary2 = itineraries.get(indexItinerary2).CalcTotalQuantity();
+        }
     }
 }

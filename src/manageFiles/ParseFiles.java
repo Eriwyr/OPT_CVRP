@@ -1,6 +1,6 @@
 package manageFiles;
 
-import DataStructure.Client;
+import dataStructure.Client;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

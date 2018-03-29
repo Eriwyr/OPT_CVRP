@@ -21,11 +21,12 @@ public class Itinerary {
 
     }
 
-    public void CalcTotalQuantity(){
+    public int CalcTotalQuantity(){
 
         for (Client client:itinerary) {
             totalQuantity += client.getQuantity();
         }
+        return totalQuantity;
 
     }
 
@@ -98,4 +99,10 @@ public class Itinerary {
         toStringBuilder.append(arcListToString);
         return toStringBuilder.toString();
     }
+
+    public int size() {
+        return itinerary.size();
+    }
+
+
 }
