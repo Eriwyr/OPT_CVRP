@@ -7,6 +7,7 @@ public class Client {
     private int id;
     private int x;
     private int y;
+    private int quantity;
 
     public Client(int id, int x, int y, int quantity) {
         this.id = id;

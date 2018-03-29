@@ -1,25 +1,33 @@
-import algorithms.SimulatedAnnealing;
-import dataStructure.Itineraries;
-import dataStructure.neighborhood.MoveClient;
+import DataStructure.Client;
+import manageFiles.ParseFiles;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Itineraries itineraries = new Itineraries();
-        System.out.println("Before :");
-        System.out.println(itineraries);
+        ParseFiles parser = new ParseFiles("src/data/data01.txt");
+        try {
+            ArrayList<Client> clients =  parser.createClientsFromFile();
+            for (Client client: clients) {
+                System.out.println(client.getId());
+            }
+        }
 
-        SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(itineraries);
-        //simulatedAnnealing.setStrategie( new InversionWithinItinerary());
-        //simulatedAnnealing.setStrategie( new InvertionBeteweenItineraries());
-        simulatedAnnealing.setStrategie( new MoveClient());
 
 
-        simulatedAnnealing.getRandomNeighbor();
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+            System.out.println("file doesn't exist");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
 
-        System.out.println("After ");
-        System.out.println(simulatedAnnealing.getItineraries());
-
+        }
     }
+
+
 }
