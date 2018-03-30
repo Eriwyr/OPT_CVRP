@@ -1,65 +1,22 @@
 package dataStructure;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Observable;
 
 import static java.util.stream.Collectors.joining;
 
-public class Itineraries {
+public class Itineraries extends Observable {
     private LinkedList<Itinerary> itineraries;
 
+    public Client getLogisticCenter() {
+        return logisticCenter;
+    }
+
+    private Client logisticCenter;
 
     public Itineraries() {
-        System.out.println("Bla");
-        LinkedList<Client> clientList1 = new LinkedList<Client>();
-        Client client11 = new Client(1, 2, 2, 0);
-        Client client12 = new Client(2, 3, 3, 0);
-        Client client13 = new Client(3, 4, 4, 0);
-        Client client14 = new Client(4, 5, 6, 0);
-
-        clientList1.add(client11);
-        clientList1.add(client12);
-        clientList1.add(client13);
-        clientList1.add(client14);
-
-        Itinerary itinerary1 = new Itinerary(clientList1);
-
-
-
-
-        LinkedList<Client> clientList2 = new LinkedList<Client>();
-        Client client21 = new Client(5, 4, 6, 0);
-        Client client22 = new Client(6, 6, 7, 0);
-        Client client23 = new Client(7, 7, 8, 0);
-
-        clientList2.add(client21);
-        clientList2.add(client22);
-        clientList2.add(client23);
-
-        Itinerary itinerary2 = new Itinerary(clientList2);
-
-
-        LinkedList<Client> clientList3 = new LinkedList<Client>();
-        Client client31 = new Client(8, 10, 1, 0);
-        Client client32 = new Client(9, 9, 2, 0);
-        Client client33 = new Client(10, 8, 3, 0);
-        Client client34 = new Client(11, 7, 4, 0);
-        Client client35 = new Client(12, 7, 5, 0);
-
-        clientList3.add(client31);
-        clientList3.add(client32);
-        clientList3.add(client33);
-        clientList3.add(client34);
-        clientList3.add(client35);
-
-        Itinerary itinerary3 = new Itinerary(clientList3);
-
         itineraries = new LinkedList<>();
-
-        itineraries.add(itinerary1);
-        itineraries.add(itinerary2);
-        itineraries.add(itinerary3);
-
-
 
     }
 
@@ -86,6 +43,9 @@ public class Itineraries {
         return itineraries.size();
     }
 
+    public void set(){
+
+    }
     public LinkedList<Itinerary> getItineraries() {
         return itineraries;
     }
@@ -117,6 +77,82 @@ public class Itineraries {
             return null;
         }
 
+    }
+
+    public void generateFirstItineries(ArrayList<Client> clients){
+        System.out.println("Generate first itineraries");
+        int j = 0;
+        int quantity=0;
+        Client tempClient  = null;
+        logisticCenter = clients.get(0);
+        LinkedList<Client> itinerary = new LinkedList<>();
+
+        for(int i = 1;i<clients.size();i++){
+            tempClient = clients.get(i);
+            quantity += tempClient.getQuantity();
+
+            if(quantity>=100){
+                itineraries.add(new Itinerary(itinerary,logisticCenter));
+                quantity = 0;
+                itinerary = new LinkedList<>();
+
+            }
+
+            itinerary.add(tempClient);
+
+        }
+
+        setChanged();
+        notifyObservers();
+/*
+        LinkedList<Client> clientList1 = new LinkedList<Client>();
+        Client client11 = new Client(1, 2, 2, 0);
+        Client client12 = new Client(2, 3, 3, 0);
+        Client client13 = new Client(3, 4, 4, 0);
+        Client client14 = new Client(4, 5, 6, 0);
+
+        clientList1.add(client11);
+        clientList1.add(client12);
+        clientList1.add(client13);
+        clientList1.add(client14);
+
+        Itinerary itinerary1 = new Itinerary(clientList1, logisticCenter);
+
+
+        LinkedList<Client> clientList2 = new LinkedList<Client>();
+        Client client21 = new Client(5, 4, 6, 0);
+        Client client22 = new Client(6, 6, 7, 0);
+        Client client23 = new Client(7, 7, 8, 0);
+
+        clientList2.add(client21);
+        clientList2.add(client22);
+        clientList2.add(client23);
+
+        Itinerary itinerary2 = new Itinerary(clientList2, logisticCenter);
+
+
+        LinkedList<Client> clientList3 = new LinkedList<Client>();
+        Client client31 = new Client(8, 10, 1, 0);
+        Client client32 = new Client(9, 9, 2, 0);
+        Client client33 = new Client(10, 8, 3, 0);
+        Client client34 = new Client(11, 7, 4, 0);
+        Client client35 = new Client(12, 7, 5, 0);
+
+        clientList3.add(client31);
+        clientList3.add(client32);
+        clientList3.add(client33);
+        clientList3.add(client34);
+        clientList3.add(client35);
+
+        Itinerary itinerary3 = new Itinerary(clientList3, logisticCenter);
+
+        itineraries.add(itinerary1);
+        itineraries.add(itinerary2);
+        itineraries.add(itinerary3);
+
+        setChanged();
+        notifyObservers();
+    */
     }
 
     public int getnumberItinirary() {

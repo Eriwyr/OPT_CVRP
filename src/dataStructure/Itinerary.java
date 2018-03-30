@@ -10,15 +10,14 @@ public class Itinerary {
     private LinkedList<Client> itinerary;
     private int totalQuantity;
     private int totalDistance;
+    private Client logisticCenter;
 
 
-    public Itinerary(LinkedList<Client> itinerary) {
+    public Itinerary(LinkedList<Client> itinerary, Client logisticCenter) {
         this.itinerary = itinerary;
+        this.logisticCenter = logisticCenter;
         calcTotalQuantity();
         calcTotaDistance();
-
-
-
     }
 
     public int CalcTotalQuantity(){
