@@ -15,9 +15,9 @@ public class ItinerariesObserver implements Observer{
     GraphicsContext gc;
     Itineraries itineraries;
 
-    static int scale = 4;
-    static float clientScale = 5.0f;
-    static float logisticCenterScale = 8.0f;
+    private static int scale = 4;
+    private static float clientScale = 5.0f;
+    private static float logisticCenterScale = 8.0f;
 
     public ItinerariesObserver(Canvas canvas, Itineraries itineraries) {
         this.canvas = canvas;

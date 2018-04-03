@@ -5,7 +5,7 @@ import dataStructure.Itineraries;
 public class InvertionBeteweenItineraries implements NeighborhoodStrategie{
 
     @Override
-    public void computeNeighbor(Itineraries itineraries) {
+    public Itineraries computeNeighbor(Itineraries itineraries) {
         int quantityItinerary1 = maxCapacity+1;
         int quantityItinerary2 = maxCapacity+1;
 
@@ -32,5 +32,7 @@ public class InvertionBeteweenItineraries implements NeighborhoodStrategie{
             quantityItinerary1 = itineraries.get(indexItinerary1).CalcTotalQuantity();
             quantityItinerary2 = itineraries.get(indexItinerary2).CalcTotalQuantity();
         }
+
+       return null;
     }
 }

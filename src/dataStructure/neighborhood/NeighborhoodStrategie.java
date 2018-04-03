@@ -7,6 +7,6 @@ import java.util.Random;
 public interface NeighborhoodStrategie {
     Random random =  new Random();
     int maxCapacity = 100;
-    void computeNeighbor(Itineraries itineraries);
+    Itineraries computeNeighbor(Itineraries itineraries);
 
 }

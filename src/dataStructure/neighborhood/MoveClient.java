@@ -5,7 +5,7 @@ import dataStructure.Itineraries;
 
 public class MoveClient implements NeighborhoodStrategie {
     @Override
-    public void computeNeighbor(Itineraries itineraries) {
+    public Itineraries computeNeighbor(Itineraries itineraries) {
         int indexItiniraryFrom = random.nextInt(itineraries.getNumberOfItineraries());
         int indexItiniraryTo = random.nextInt(itineraries.getNumberOfItineraries());
 
@@ -25,5 +25,6 @@ public class MoveClient implements NeighborhoodStrategie {
             quantityItineraryTo = itineraries.get(indexItiniraryFrom).CalcTotalQuantity();
 
         }
+        return  null;
     }
 }

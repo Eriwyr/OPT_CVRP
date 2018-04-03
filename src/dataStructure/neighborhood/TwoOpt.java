@@ -1,4 +1,4 @@
 package dataStructure.neighborhood;
 
-public class TowOpt {
+public class TwoOpt {
 }

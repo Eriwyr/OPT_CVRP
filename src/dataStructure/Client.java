@@ -16,6 +16,13 @@ public class Client {
         this.quantity = quantity;
     }
 
+    public Client(Client clientSource) {
+        this.id = clientSource.getId();
+        this.x = clientSource.getX();
+        this.y = clientSource.getY();
+        this.quantity = clientSource.getQuantity();
+    }
+
     public int getId() {
         return id;
     }
@@ -36,7 +43,11 @@ public class Client {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append(this.id);
+        stringBuilder.append(this.id)
+                .append(" (")
+                .append(this.quantity)
+                .append(")");
+
         return stringBuilder.toString();
 
     }

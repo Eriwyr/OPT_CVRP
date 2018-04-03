@@ -4,21 +4,33 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Observable;
 
+import static java.lang.Math.pow;
+import static java.lang.Math.abs;
+
+import static java.lang.Math.sqrt;
 import static java.util.stream.Collectors.joining;
 
 public class Itineraries extends Observable {
     private LinkedList<Itinerary> itineraries;
+    private Client logisticCenter;
+
+
+    public Itineraries(Itineraries itinerariesSource) {
+        itineraries = new LinkedList<Itinerary>(itinerariesSource.getItineraries());
+        logisticCenter = new Client(itinerariesSource.getLogisticCenter());
+
+    }
+    public Itineraries() {
+        itineraries = new LinkedList<>();
+
+    }
+
+
 
     public Client getLogisticCenter() {
         return logisticCenter;
     }
 
-    private Client logisticCenter;
-
-    public Itineraries() {
-        itineraries = new LinkedList<>();
-
-    }
 
     public void invertionWithinItinerary(int indexItinerary, int indexClient1, int indexClient2) {
 
@@ -87,13 +99,14 @@ public class Itineraries extends Observable {
         logisticCenter = clients.get(0);
         LinkedList<Client> itinerary = new LinkedList<>();
 
+
         for(int i = 1;i<clients.size();i++){
             tempClient = clients.get(i);
             quantity += tempClient.getQuantity();
 
-            if(quantity>=100){
-                itineraries.add(new Itinerary(itinerary,logisticCenter));
-                quantity = 0;
+            if(quantity>100){
+                itineraries.add( new Itinerary(itinerary,logisticCenter));
+                quantity = tempClient.getQuantity();
                 itinerary = new LinkedList<>();
 
             }
@@ -101,7 +114,9 @@ public class Itineraries extends Observable {
             itinerary.add(tempClient);
 
         }
+        itineraries.add(new Itinerary(itinerary,logisticCenter));
 
+        System.out.println("Number of itinerary : "+itineraries.size());
         setChanged();
         notifyObservers();
 /*
@@ -159,5 +174,32 @@ public class Itineraries extends Observable {
         return itineraries.size();
     }
 
+    public double distanceToLogisticCenter(Client client) {
+
+        double X = pow(abs(((double)client.getX() - (double)logisticCenter.getX())),2);
+        double Y = pow(abs(((double)client.getY() - (double)logisticCenter.getY())),2);
+
+        return sqrt(X+Y);
+    }
+
+    public double calcDistance() {
+        Client firstClient;
+        Client lastClient;
+
+        double totalDistance = 0;
+        for (Itinerary itinerary : itineraries ) {
+
+            firstClient = itinerary.getFirstClient();
+            lastClient = itinerary.getLastClient();
+
+
+            totalDistance = itinerary.calcTotaDistance();
+            totalDistance += distanceToLogisticCenter(firstClient);
+            totalDistance += distanceToLogisticCenter(lastClient);
+
+
+        }
+        return totalDistance;
+    }
 
 }

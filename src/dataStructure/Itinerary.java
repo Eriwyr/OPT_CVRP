@@ -4,13 +4,15 @@ import java.util.*;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
+import static java.lang.Math.abs;
 import static java.util.stream.Collectors.joining;
 
 public class Itinerary {
     private LinkedList<Client> itinerary;
     private int totalQuantity;
-    private int totalDistance;
+    private double totalDistance;
     private Client logisticCenter;
+
 
 
     public Itinerary(LinkedList<Client> itinerary, Client logisticCenter) {
@@ -29,7 +31,7 @@ public class Itinerary {
 
     }
 
-    public void calcTotaDistance(){
+    public double calcTotaDistance(){
         ListIterator<Client> iterator = itinerary.listIterator();
         Client client = itinerary.getFirst();
         Client nextClient = null;
@@ -39,13 +41,14 @@ public class Itinerary {
         while(iterator.hasNext()){
             nextClient = iterator.next();
 
-            X = pow(((double)client.getX() - (double)nextClient.getX()),2);
-            Y = pow(((double)client.getY() - (double)nextClient.getY()),2);
+            X = pow(abs(((double)client.getX() - (double)nextClient.getX())),2);
+            Y = pow(abs(((double)client.getY() - (double)nextClient.getY())),2);
 
             totalDistance += (sqrt(X+Y));
 
             client = nextClient;
         }
+        return totalDistance;
     }
 
     public void inversion(int index1, int index2) {
@@ -58,12 +61,27 @@ public class Itinerary {
         }
     }
 
-    public void calcTotalQuantity() {
+    public int calcTotalQuantity() {
+        totalQuantity = 0;
+        for (Client client :itinerary ) {
+            totalQuantity += client.getQuantity();
+
+        }
+        return totalQuantity;
     }
 
     public LinkedList<Client> getItinerary() {
         return itinerary;
     }
+
+    public Client getFirstClient() {
+        return itinerary.getFirst();
+    }
+
+    public Client getLastClient() {
+        return itinerary.getLast();
+    }
+
 
     /*@Override
     public String toString() {
@@ -95,7 +113,10 @@ public class Itinerary {
                 .stream()
                 .map(Client::toString)
                 .collect(joining(", "));
-        toStringBuilder.append(arcListToString);
+        toStringBuilder.append(arcListToString)
+                .append(" total quantity : ")
+                .append(calcTotalQuantity());
+
         return toStringBuilder.toString();
     }
 
