@@ -14,11 +14,10 @@ public class ItinerariesObserver implements Observer{
     Canvas canvas;
     GraphicsContext gc;
     Itineraries itineraries;
-
-    private int displayNb =9;
-
     private static int scale = 4;
-    private static float clientScale = 5.0f;
+    private static int xOffset = 320;
+    private static int yOffset = 100;
+    private static float clientScale = 7.0f;
     private static float logisticCenterScale = 8.0f;
 
     public ItinerariesObserver(Canvas canvas, Itineraries itineraries) {
@@ -33,29 +32,25 @@ public class ItinerariesObserver implements Observer{
     }
 
     public void drawItineraries(){
-        displayNb++;
-        if (displayNb%10==0) {
-            clearItineraries();
-            Client tempClient = null;
-            Client logisticCenter = itineraries.getLogisticCenter();
+        clearItineraries();
+        Client tempClient = null;
+        Client logisticCenter = itineraries.getLogisticCenter();
 
-            gc.setFill(Color.RED);
-            gc.fillOval(logisticCenter.getX() * scale, logisticCenter.getY() * scale, logisticCenterScale, logisticCenterScale);
+        gc.setFill(Color.RED);
+        gc.fillOval(logisticCenter.getX() * scale +xOffset, logisticCenter.getY() * scale +yOffset, logisticCenterScale, logisticCenterScale);
 
-            for (Itinerary itinerary : itineraries.getItineraries()) {
-                tempClient = logisticCenter;
-                gc.setFill(Color.color(Math.random(), Math.random(), Math.random()));
-                for (Client client : itinerary.getItinerary()) {
-                    gc.fillOval(client.getX() * scale, client.getY() * scale, clientScale, clientScale);
-                    gc.strokeLine(client.getX() * scale, client.getY() * scale, tempClient.getX() * scale, tempClient.getY() * scale);
-                    tempClient = client;
-
-                }
-                gc.strokeLine(tempClient.getX() * scale, tempClient.getY() * scale, logisticCenter.getX() * scale, logisticCenter.getY() * scale);
+        for (Itinerary itinerary : itineraries.getItineraries()) {
+            tempClient = logisticCenter;
+            gc.setFill(Color.color(Math.random(), Math.random(), Math.random()));
+            for (Client client : itinerary.getItinerary()) {
+                gc.fillOval(client.getX() * scale+xOffset, client.getY() * scale+yOffset, clientScale, clientScale);
+                gc.strokeLine(client.getX() * scale+xOffset, client.getY() * scale+yOffset, tempClient.getX() * scale+xOffset, tempClient.getY() * scale+yOffset);
+                gc.fillText(String.valueOf(client.getId()),client.getX() * scale+xOffset, client.getY() * scale+yOffset);
+                tempClient = client;
 
             }
+            gc.strokeLine(tempClient.getX() * scale+xOffset, tempClient.getY() * scale+yOffset, logisticCenter.getX() * scale+xOffset, logisticCenter.getY() * scale+yOffset);
         }
-
     }
 
     public void clearItineraries(){

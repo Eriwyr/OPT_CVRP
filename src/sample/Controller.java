@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import manageFiles.ParseFiles;
 
 import java.io.FileNotFoundException;
@@ -17,11 +18,23 @@ public class Controller {
     Itineraries itineraries;
     ItinerariesObserver obs;
 
+    @FXML
+    private CheckBox check1;
+
+    @FXML
+    private CheckBox check2;
+
+    @FXML
     Canvas canvas;
 
     public Controller() {
         this.itineraries = new Itineraries();
         obs = null;
+        //algoChoice.getItems().add("Simulated Annealing");
+        //algoChoice.getItems().add("Genetic Algorithm");
+
+
+
     }
 
     public void loadClientFromFile(){
@@ -64,6 +77,21 @@ public class Controller {
         if(obs != null){
             obs.clearItineraries();
         }
+    }
+
+    @FXML
+    public void chooseAlgorithm1(ActionEvent event){
+        check1 = (CheckBox) ((CheckBox)event.getSource()).getScene().lookup("#check1");
+
+        check2.setSelected(false);
+        System.out.println("Simulated Annealing choosed");
+    }
+    @FXML
+    public void chooseAlgorithm2(ActionEvent event){
+        check2 = (CheckBox) ((CheckBox)event.getSource()).getScene().lookup("#check2");
+
+        check1.setSelected(false);
+        System.out.println("Genetic Algorithm choosed");
     }
 
 }
