@@ -46,15 +46,14 @@ public class SimulatedAnnealing implements Runnable{
 
     @Override
     public void run() {
-        int indexNeighborhood;
-        float t0 = 4.0f;
+        float t0 = 10.0f;
         float t = t0;
-        int n1 =10000; //TODO determine n1
+        int n1 =100000; //TODO determine n1
         int n2 =10; //TODO determine n2
 
         double distanceMin = xmin.calcDistance();
         System.out.println("Start distance : "+distanceMin);
-        float lambda =0.89f;
+        float lambda =0.99f;
 
 
         Itineraries xi = xmin ;

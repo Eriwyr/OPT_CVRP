@@ -3,6 +3,7 @@ package dataStructure;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Observable;
+import java.util.Random;
 
 import static java.lang.Math.*;
 import static java.util.stream.Collectors.joining;
@@ -110,6 +111,42 @@ public class Itineraries extends Observable {
             e.printStackTrace();
             return null;
         }
+
+    }
+
+    public void generateRandomItineraries(ArrayList<Client> clients){
+        int randomIndex = 0;
+        int quantity=0;
+        ArrayList<Client> clientsCopy = new ArrayList<>();
+        for (Client client: clients) {
+            clientsCopy.add(client);
+        }
+        clientsCopy.remove(0);
+        Client tempClient  = null;
+        Random random = new Random();
+        logisticCenter = clientsCopy.get(0);
+        LinkedList<Client> itinerary = new LinkedList<>();
+
+        while (!(clientsCopy.size()==1)){
+            System.out.println("size "+clientsCopy.size());
+            randomIndex = random.nextInt(clientsCopy.size()-1);
+            System.out.println("Index "+randomIndex);
+            tempClient = clientsCopy.get(randomIndex);
+            clientsCopy.remove(randomIndex);
+            quantity += tempClient.getQuantity();
+
+            if(quantity>100){
+                itineraries.add( new Itinerary(itinerary,logisticCenter));
+                quantity = tempClient.getQuantity();
+                itinerary = new LinkedList<>();
+
+            }
+            itinerary.add(tempClient);
+        }
+        itineraries.add(new Itinerary(itinerary,logisticCenter));
+
+        setChanged();
+        notifyObservers();
 
     }
 
