@@ -34,7 +34,9 @@ public class Itineraries extends Observable {
 
     }
 
-
+    public void add(Itinerary itinerary) {
+        itineraries.add(itinerary);
+    }
 
     public Client getLogisticCenter() {
         return logisticCenter;
@@ -64,7 +66,8 @@ public class Itineraries extends Observable {
         return itineraries.size();
     }
 
-    public void set(){
+    public void set(int i, Itinerary itinerary){
+        itineraries.set(i, itinerary);
 
     }
     public LinkedList<Itinerary> getItineraries() {

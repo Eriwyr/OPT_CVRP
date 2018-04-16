@@ -14,6 +14,9 @@ public class Itinerary {
     private Client logisticCenter;
 
 
+    public Itinerary() {
+        this.itinerary = new LinkedList<>();
+    }
 
     public Itinerary(LinkedList<Client> clients, Client logisticCenter) {
         this.itinerary = new LinkedList<>();
@@ -137,4 +140,11 @@ public class Itinerary {
     }
 
 
+    public Client get(int i) {
+        return itinerary.get(i);
+    }
+
+    public void add(Client client) {
+        itinerary.add(client);
+    }
 }
