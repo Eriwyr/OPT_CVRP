@@ -15,20 +15,41 @@ public class Itinerary {
 
 
 
-    public Itinerary(LinkedList<Client> itinerary, Client logisticCenter) {
-        this.itinerary = itinerary;
+    public Itinerary(LinkedList<Client> clients, Client logisticCenter) {
+        this.itinerary = new LinkedList<>();
+        for (Client c : clients) {
+
+            itinerary.add(c);
+        }
         this.logisticCenter = logisticCenter;
-        calcTotalQuantity();
-        calcTotaDistance();
+        if (itinerary.size()>0) {
+            calcTotalQuantity();
+            calcTotaDistance();
+        }
+        //totalQuantity=0;
+    }
+
+    public Client getLogisticCenter() {
+        return logisticCenter;
     }
 
     public int CalcTotalQuantity(){
-
+        totalQuantity=0;
         for (Client client:itinerary) {
             totalQuantity += client.getQuantity();
         }
         return totalQuantity;
 
+    }
+
+    public double distanceDeuxClients(Client client1, Client client2) {
+        double X = 0;
+        double Y = 0;
+
+        X = pow(abs(((double)client1.getX() - (double)client2.getX())),2);
+        Y = pow(abs(((double)client1.getY() - (double)client2.getY())),2);
+
+        return (sqrt(X+Y));
     }
 
     public double calcTotaDistance(){
@@ -37,7 +58,7 @@ public class Itinerary {
         Client nextClient = null;
         double X = 0;
         double Y = 0;
-
+        totalDistance=0;
         while(iterator.hasNext()){
             nextClient = iterator.next();
 
@@ -83,30 +104,22 @@ public class Itinerary {
     }
 
 
-    /*@Override
-    public String toString() {
-
-
-
-        StringBuilder toStringBuilder = new StringBuilder();
-        toStringBuilder.append("clients  :  \n");
-
-        itinerary.forEach(client -> {
-
-            toStringBuilder.append(client.getId())
-                    .append(", ");
-
-        });
-
-        return toStringBuilder.toString();
-
-    }*/
-
-
     @Override
     public String toString() {
+
+
+
+
         StringBuilder toStringBuilder = new StringBuilder();
+
+        toStringBuilder.append("[linked list : ")
+                .append(itinerary.getClass().getName())
+                .append("@")
+                .append(Integer.toHexString(itinerary.hashCode()))
+                .append("]\n");
+
         toStringBuilder.append("Clients : ");
+
 
 
         final String arcListToString = itinerary
@@ -116,7 +129,6 @@ public class Itinerary {
         toStringBuilder.append(arcListToString)
                 .append(" total quantity : ")
                 .append(calcTotalQuantity());
-
         return toStringBuilder.toString();
     }
 

@@ -14,6 +14,7 @@
             <Canvas fx:id="canvas" height="718.0" layoutY="45.0" width="1024.0" />
             <Button fx:id="stopBtn" layoutX="116.0" layoutY="3.0" mnemonicParsing="false" onAction="#stop" prefHeight="29.0" prefWidth="78.0" text="Stop" />
             <Button fx:id="playBtn" layoutX="12.0" layoutY="3.0" mnemonicParsing="false" onAction="#play" prefHeight="29.0" prefWidth="78.0" text="Play" />
+            <Button fx:id="startBtn" layoutX="259.0" layoutY="3.0" mnemonicParsing="false" onAction="#startSim" prefHeight="29.0" prefWidth="78.0" text="Play" />
          </children>
       </AnchorPane>
    </children>

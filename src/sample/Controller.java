@@ -1,14 +1,12 @@
 package sample;
 
+import algorithms.SimulatedAnnealing;
 import dataStructure.Client;
 import dataStructure.Itineraries;
-import dataStructure.Itinerary;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import manageFiles.ParseFiles;
 
 import java.io.FileNotFoundException;
@@ -30,7 +28,7 @@ public class Controller {
         ParseFiles parser = new ParseFiles("src/data/data01.txt");
         try {
             ArrayList<Client> clients =  parser.createClientsFromFile();
-            itineraries.generateFirstItineries(clients);
+            itineraries.generateFirstItineraries(clients);
         }
         catch (FileNotFoundException e){
             e.printStackTrace();
@@ -47,10 +45,18 @@ public class Controller {
         System.out.println(canvas);
         obs = new ItinerariesObserver(canvas,itineraries);
         itineraries.addObserver(obs);
-
         loadClientFromFile();
+        //SimulatedAnnealing sim = new SimulatedAnnealing(itineraries);
 
 
+    }
+
+    @FXML
+    public void startSim(ActionEvent event){
+
+        SimulatedAnnealing sim = new SimulatedAnnealing(itineraries);
+        Thread t = new Thread(sim);
+        t.start();
     }
 
     @FXML

@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Observable;
 
-import static java.lang.Math.pow;
-import static java.lang.Math.abs;
-
-import static java.lang.Math.sqrt;
+import static java.lang.Math.*;
 import static java.util.stream.Collectors.joining;
 
 public class Itineraries extends Observable {
@@ -15,8 +12,20 @@ public class Itineraries extends Observable {
     private Client logisticCenter;
 
 
+    public void setItineraries(LinkedList<Itinerary> itineraries) {
+        this.itineraries = itineraries;
+        setChanged();
+        notifyObservers();
+
+    }
+
     public Itineraries(Itineraries itinerariesSource) {
-        itineraries = new LinkedList<Itinerary>(itinerariesSource.getItineraries());
+       // itineraries = new LinkedList<>(itinerariesSource.getItineraries());
+        itineraries = new LinkedList<>();
+        for (Itinerary it :itinerariesSource.getItineraries()) {
+            itineraries.add(new Itinerary(it.getItinerary(), it.getLogisticCenter()));
+
+        }
         logisticCenter = new Client(itinerariesSource.getLogisticCenter());
 
     }
@@ -65,22 +74,35 @@ public class Itineraries extends Observable {
     @Override
     public String toString() {
 
-
-
         StringBuilder toStringBuilder = new StringBuilder();
-        toStringBuilder.append("Itineraries :  \n");
+        toStringBuilder.append("[")
+                .append(getClass().getName())
+                .append("@")
+                .append(Integer.toHexString(hashCode()))
+                .append("]\n");
 
-        final String itinerariesListToString = itineraries
+       final String itinerariesListToString = itineraries
                 .stream()
                 .map(Itinerary::toString)
                 .collect(joining("\n"));
 
         toStringBuilder.append(itinerariesListToString);
+
+      /*  toStringBuilder.append("\nDistance totale : ")
+                .append(calcDistance())
+                .append("\n");*/
         return toStringBuilder.toString();
 
     }
 
-    public Itinerary get(int index) {
+    /*@Override
+    public String toString() {
+        return "LinkedList : "+itineraries.toString();
+    }*/
+
+
+
+      public Itinerary get(int index) {
         try {
             return itineraries.get(index);
 
@@ -91,8 +113,7 @@ public class Itineraries extends Observable {
 
     }
 
-    public void generateFirstItineries(ArrayList<Client> clients){
-        System.out.println("Generate first itineraries");
+    public void generateFirstItineraries(ArrayList<Client> clients){
         int j = 0;
         int quantity=0;
         Client tempClient  = null;
@@ -116,7 +137,6 @@ public class Itineraries extends Observable {
         }
         itineraries.add(new Itinerary(itinerary,logisticCenter));
 
-        System.out.println("Number of itinerary : "+itineraries.size());
         setChanged();
         notifyObservers();
 /*
@@ -193,13 +213,12 @@ public class Itineraries extends Observable {
             lastClient = itinerary.getLastClient();
 
 
-            totalDistance = itinerary.calcTotaDistance();
-            totalDistance += distanceToLogisticCenter(firstClient);
-            totalDistance += distanceToLogisticCenter(lastClient);
+            totalDistance += abs(itinerary.calcTotaDistance());
+            totalDistance += abs(distanceToLogisticCenter(firstClient));
+            totalDistance += abs(distanceToLogisticCenter(lastClient));
 
 
         }
         return totalDistance;
     }
-
 }

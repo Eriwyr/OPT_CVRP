@@ -1,87 +1,33 @@
 package algorithms;
 
+import com.sun.tools.internal.ws.wsdl.document.soap.SOAPUse;
 import dataStructure.Itineraries;
-import dataStructure.Itinerary;
 import static java.lang.Math.exp;
 import dataStructure.neighborhood.*;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SimulatedAnnealing {
+public class SimulatedAnnealing implements Runnable{
     NeighborhoodStrategie neighborhoodStrategie;
     private Itineraries itineraries;
     private Random random;
-
+    private Itineraries xmin;
+    ArrayList<NeighborhoodStrategie>neighborhoods;
     public SimulatedAnnealing(Itineraries itineraries) {
 
-        ArrayList<NeighborhoodStrategie> neighborhoods = new ArrayList<>();
-        neighborhoods.add(new InversionWithinItinerary());
+        System.out.println("Start");
+        neighborhoods = new ArrayList<>();
+        /*neighborhoods.add(new InversionWithinItinerary());
         neighborhoods.add(new InvertionBeteweenItineraries());
         neighborhoods.add(new InvertionBeteweenItineraries());
-        neighborhoods.add(new MoveClient());
+        neighborhoods.add(new MoveClient());*/
         // neighborhoods.add(new TwoOpt());
+        xmin = itineraries;
+        this.itineraries= itineraries;
 
-        int indexNeighborhood;
-        float t0; // TODO Calc T0
-        float t;
-        int n1 =100; //TODO determine n1
-        int n2 =100; //TODO determine n2
-        Itineraries xmin = itineraries;
-        double distanceMin = xmin.calcDistance();
-
-
-
-        Itineraries xi = xmin ;
-        Itineraries xi1;
-        Itineraries y;
-
-        double distanceNeighbor;
-        double distanceX;
-        double deltaDistance;
-
-        float p;
-
-
-        double fmin = itineraries.calcDistance();
-        for(int k = 0 ; k<n1; k++){
-            for(int l = 0 ; l<n2; l++){
-                indexNeighborhood = random.nextInt(neighborhoods.size());
-                NeighborhoodStrategie neighborhood = neighborhoods.get(indexNeighborhood);
-                y = neighborhood.computeNeighbor(xi);
-
-                distanceNeighbor = y.calcDistance();
-                distanceX = xi.calcDistance();
-                deltaDistance = distanceNeighbor - distanceX;,
-
-                if (deltaDistance <= 0){
-                    xi = new Itineraries(y);
-                    distanceX = xi.calcDistance();
-                    if (distanceX < distanceMin ) {
-                        distanceMin =  distanceX;
-                        xmin = new Itineraries(xi);
-                    }
-                } else {
-                    p = random.nextFloat();
-                    if (p<exp(-deltaDistance/t)) {
-                        xi = new Itineraries(y);
-
-                    }
-
-                }
-
-
-            }
-            t = t; //TODO change t
-        }
-
-        /*random = new Random();
-        this.itineraries = itineraries;
-        this.neighborhoodStrategie= new InversionWithinItinerary();
-*/
 
     }
-
 
     public void getRandomNeighbor() {
         neighborhoodStrategie.computeNeighbor(this.itineraries);
@@ -98,5 +44,67 @@ public class SimulatedAnnealing {
     }
 
 
+    @Override
+    public void run() {
+        int indexNeighborhood;
+        float t0 = 4.0f;
+        float t = t0;
+        int n1 =10000; //TODO determine n1
+        int n2 =10; //TODO determine n2
 
+        double distanceMin = xmin.calcDistance();
+        System.out.println("Start distance : "+distanceMin);
+        float lambda =0.89f;
+
+
+        Itineraries xi = xmin ;
+        Itineraries xi1;
+        Itineraries y = xmin;
+
+        double distanceNeighbor;
+        double distanceX =0;
+        double deltaDistance;
+
+        float p;
+
+        random = new Random();
+        InvertionBeteweenItineraries neighborhood = new InvertionBeteweenItineraries();
+
+        double fmin = itineraries.calcDistance();
+        for(int k = 0 ; k<n1; k++){
+            for(int l = 0 ; l<n2; l++){
+                y = neighborhood.computeNeighbor(xi);
+
+                distanceNeighbor = y.calcDistance();
+                distanceX = xi.calcDistance();
+                deltaDistance = distanceNeighbor - distanceX;
+                if (deltaDistance <= 0){
+
+                    xi.setItineraries(y.getItineraries());
+                    distanceX = xi.calcDistance();
+                    //System.out.println("<0, nouveau distcancex = "+distanceX);
+                    /*if (distanceX < distanceMin ) {
+                        distanceMin =  distanceX;
+                        xmin = new Itineraries(xi);
+                    }*/
+                } else {
+                    p = random.nextFloat();
+                    if (p<exp(-deltaDistance/t)) {
+                        xi.setItineraries(y.getItineraries());
+                        //System.out.println("nouveau distcancex = "+distanceX);
+                    } else {
+                        //System.out.println("pas de nouveau distancex");
+                    }
+
+                }
+
+            }
+            t = t*lambda;
+        }
+        System.out.println("Final distance : "+distanceX);
+        /*random = new Random();
+        this.itineraries = itineraries;
+        this.neighborhoodStrategie= new InversionWithinItinerary();
+*/
+    }
 }
