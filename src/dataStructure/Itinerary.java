@@ -106,10 +106,6 @@ public class Itinerary {
 
     @Override
     public String toString() {
-
-
-
-
         StringBuilder toStringBuilder = new StringBuilder();
 
         toStringBuilder.append("[linked list : ")
