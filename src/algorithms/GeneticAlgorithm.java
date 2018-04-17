@@ -7,15 +7,23 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class GeneticAlgorithm {
+public class GeneticAlgorithm implements Runnable{
 
-    Random random;
+    private Random random;
+    private int nbIteration;
     private LinkedList<Itineraries> population;
+    private int probaCross;
+    private int nbReproduction;
+    private Itineraries bestKnown;
 
-
-    public GeneticAlgorithm(LinkedList<Itineraries> population) {
+    public GeneticAlgorithm(LinkedList<Itineraries> population, int nbIteration, int probaCross,int nbReproduction) {
         this.population = population;
+        this.nbIteration = nbIteration;
+        this.probaCross = probaCross;
+        this.nbReproduction = nbReproduction;
         random = new Random();
+        bestKnown = new Itineraries();
+
     }
 
     public GeneticAlgorithm() {
@@ -208,5 +216,45 @@ int index1=0;
 
 
 
+    }
+
+    private Itineraries foundBestSolution(){
+        Itineraries bestItineraries = new Itineraries();
+        double minDistance = population.get(0).calcDistance();
+        double currentDistance;
+
+        for (Itineraries itineraries: population) {
+            currentDistance = itineraries.calcDistance();
+            if(itineraries.calcDistance()<minDistance){
+                bestItineraries = itineraries;
+                minDistance = currentDistance;
+            }
+        }
+        return bestItineraries;
+    }
+
+    @Override
+    public void run() {
+        int i = 0;
+
+        System.out.println("Start genetic algorithm");
+        bestKnown = foundBestSolution();
+        System.out.println("first best solution :"+bestKnown.calcDistance());
+        while(i<nbIteration){
+            reproduction();
+            if(random.nextInt(100)<probaCross){
+                mutation();
+            }
+            else{
+                //crossover();
+            }
+
+            bestKnown =foundBestSolution();
+            System.out.println("current best solution :"+bestKnown.calcDistance());
+            i++;
+        }
+        
+        System.out.println("Final best solution :"+bestKnown.calcDistance());
+        System.out.println("Finished");
     }
 }
