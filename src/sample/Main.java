@@ -1,5 +1,6 @@
 package sample;
 
+import algorithms.GeneticAlgorithm;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -31,6 +32,9 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
+       // launch(args);
+        GeneticAlgorithm g = new GeneticAlgorithm();
+        g.generateInitialPopulation();
+        System.out.println("finish");
     }
 }

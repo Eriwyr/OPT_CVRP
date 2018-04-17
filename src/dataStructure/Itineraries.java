@@ -20,6 +20,11 @@ public class Itineraries extends Observable {
 
     }
 
+    public Itineraries(LinkedList<Itinerary> itineraries, Client logisticCenter) {
+        this.itineraries = itineraries;
+        this.logisticCenter = logisticCenter;
+    }
+
     public Itineraries(Itineraries itinerariesSource) {
        // itineraries = new LinkedList<>(itinerariesSource.getItineraries());
         itineraries = new LinkedList<>();
@@ -260,5 +265,16 @@ public class Itineraries extends Observable {
 
         }
         return totalDistance;
+    }
+
+    public LinkedList<Client> getClientsFromItineraries(){
+        LinkedList<Client> clients = new LinkedList<>();
+        StringBuilder toStringBuilder = new StringBuilder();
+
+        System.out.println(toStringBuilder.toString());
+        for (Itinerary itinerary : itineraries)
+            clients.addAll(itinerary.getItinerary());
+
+        return clients;
     }
 }

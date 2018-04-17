@@ -82,14 +82,12 @@ public class Controller {
     @FXML
     public void chooseAlgorithm1(ActionEvent event){
         check1 = (CheckBox) ((CheckBox)event.getSource()).getScene().lookup("#check1");
-
         check2.setSelected(false);
         System.out.println("Simulated Annealing choosed");
     }
     @FXML
     public void chooseAlgorithm2(ActionEvent event){
         check2 = (CheckBox) ((CheckBox)event.getSource()).getScene().lookup("#check2");
-
         check1.setSelected(false);
         System.out.println("Genetic Algorithm choosed");
     }
