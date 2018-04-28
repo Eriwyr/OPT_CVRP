@@ -78,7 +78,7 @@ public class ItinerariesObserver implements Observer{
         gc.setLineWidth(3);
 
         gc.setFill(Color.BLACK);
-        gc.fillText("Neighbors choosen : " + String.valueOf(callNumber), 24, 44);
+        gc.fillText("Iterations Number: " + String.valueOf(callNumber), 24, 44);
 
         int j = 0;
         for (Itinerary itinerary : itineraries.getItineraries()) {

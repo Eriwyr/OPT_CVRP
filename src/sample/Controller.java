@@ -2,6 +2,7 @@ package sample;
 
 import algorithms.GeneticAlgorithm;
 import algorithms.SimulatedAnnealing;
+import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 import dataStructure.Client;
 import dataStructure.Itineraries;
 import javafx.event.ActionEvent;
@@ -11,6 +12,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import manageFiles.ParseFiles;
 
@@ -29,7 +31,11 @@ public class Controller {
 
     private int numberOfIteration;
     private int temperatureNumber;
-    private int coolingRate;
+    private float coolingRateNumber;
+    private int bearingNumber;
+    private int populationSizeNumber;
+    private int probaCrossNumber;
+    private int reproductionNumber;
 
 
     @FXML
@@ -43,6 +49,21 @@ public class Controller {
 
     @FXML
     private TextField temperature;
+
+    @FXML
+    private TextField coolingRate;
+
+    @FXML
+    private TextField bearingNb;
+
+    @FXML
+    private Label label1;
+
+    @FXML
+    private Label label2;
+
+    @FXML
+    private Label label3;
 
 
     @FXML
@@ -104,16 +125,17 @@ public class Controller {
             this.itineraries = new Itineraries();
             Canvas canvas = (Canvas) ((Button) event.getSource()).getScene().lookup("#canvas");
             System.out.println(canvas);
-            obs = new ItinerariesObserver(canvas, itineraries,10,numberOfIteration,distancies);
+            obs = new ItinerariesObserver(canvas, itineraries,100,numberOfIteration,distancies);
             itineraries.addObserver(obs);
             loadItinirariesFromFile();
-            SimulatedAnnealing sim = new SimulatedAnnealing(itineraries, 1000, 10, 10, 0.99f);
+            SimulatedAnnealing sim = new SimulatedAnnealing(itineraries, numberOfIteration, bearingNumber, temperatureNumber, coolingRateNumber);
             t = new Thread(sim);
             t.start();
         }
         else if(check2.isSelected()){
 
             getParametersGenetic();
+
             this.itineraries = new Itineraries();
             Canvas canvas = (Canvas) ((Button)event.getSource()).getScene().lookup("#canvas");
             System.out.println(canvas);
@@ -123,7 +145,7 @@ public class Controller {
             loadClientsFromFile();
             itineraries.generateRandomItineraries(clientsFromFile);
 
-            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(clientsFromFile, numberOfIteration ,50,80,  itineraries, 100);
+            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(clientsFromFile, numberOfIteration ,probaCrossNumber,reproductionNumber,  itineraries, populationSizeNumber);
 
             t = new Thread(geneticAlgorithm);
             t.start();
@@ -152,12 +174,36 @@ public class Controller {
         check1 = (CheckBox) ((CheckBox)event.getSource()).getScene().lookup("#check1");
         check2.setSelected(false);
         System.out.println("Simulated Annealing choosed");
+        label1.setText("Temperature :");
+        label1.setLayoutX(870);
+        label1.setLayoutY(67);
+        label2.setText("Cooling rate( >0,<1)  :");
+        label2.setLayoutX(823);
+        label2.setLayoutY(102);
+        label3.setText("Bearing number(0-nbIterations) :");
+        label3.setLayoutX(754);
+        label3.setLayoutY(137);
     }
     @FXML
     public void chooseAlgorithm2(ActionEvent event){
         check2 = (CheckBox) ((CheckBox)event.getSource()).getScene().lookup("#check2");
         check1.setSelected(false);
         System.out.println("Genetic Algorithm choosed");
+
+        label1.setText("Population Size :");
+        label1.setLayoutX(855);
+        label1.setLayoutY(67);
+        label2.setText("Proba Crossover :");
+        label2.setLayoutX(846);
+        label2.setLayoutY(102);
+        label3.setText("Reproduction ( < Population Size) :");
+        label3.setLayoutX(742);
+        label3.setLayoutY(137);
+
+        temperature.setText("100");
+        coolingRate.setText("50");
+        bearingNb.setText("80");
+
     }
 
     @FXML
@@ -196,7 +242,7 @@ public class Controller {
     public int getTemperature(){
         int temperatureNumber = 0;
 
-        String tmp = nbIterations.getText();
+        String tmp = temperature.getText();
 
         try {
             if(tmp.matches("[0-9]*")){
@@ -211,13 +257,56 @@ public class Controller {
 
     }
 
+    public float getCoolingRate(){
+        float coolingRateNumber = 0;
+
+        String tmp = coolingRate.getText();
+
+        try {
+            coolingRateNumber = Float.parseFloat(tmp);
+        }
+        catch(NumberFormatException e){
+            return 0;
+        }
+        return coolingRateNumber;
+
+    }
+    public int getBearing(){
+        int bearingNumber = 0;
+
+        String tmp = bearingNb.getText();
+
+        try {
+            if(tmp.matches("[0-9]*")){
+                bearingNumber = Integer.parseInt(tmp);
+
+            }
+        }
+        catch(NumberFormatException e){
+            return 0;
+        }
+        return bearingNumber;
+
+    }
+
+
+
     public void getParametersAnnealing(){
        this.numberOfIteration = getNbIterations();
-        this.temperatureNumber = getTemperature();
+       this.temperatureNumber = getTemperature();
+       this.coolingRateNumber = getCoolingRate();
+       this.bearingNumber = getBearing();
+       System.out.println("Cooling rate : "+coolingRateNumber);
+        System.out.println("number of iteration : "+numberOfIteration);
+        System.out.println("number of temperature : "+temperatureNumber);
+        System.out.println("Bearing "+ bearingNumber);
     }
 
     public void getParametersGenetic(){
-
+        this.numberOfIteration = getNbIterations();
+        this.populationSizeNumber = getTemperature();
+        this.probaCrossNumber = Math.round(getCoolingRate());
+        this.reproductionNumber = getBearing();
     }
 
 

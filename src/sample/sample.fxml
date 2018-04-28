@@ -45,12 +45,14 @@
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Button>
-            <TextField fx:id="nbIterations" layoutX="814.0" />
+            <TextField fx:id="nbIterations" layoutX="814.0" text="1000" />
             <Label layoutX="673.0" layoutY="5.0" prefHeight="17.0" prefWidth="150.0" text="Number of iterations :" />
-            <Label layoutX="870.0" layoutY="67.0" prefHeight="17.0" prefWidth="92.0" text="Temperature :" />
-            <Label layoutX="823.0" layoutY="102.0" prefHeight="17.0" prefWidth="135.0" text="Cooling rate( &gt;0,&lt;1)  :" />
-            <TextField fx:id="temprature" layoutX="969.0" layoutY="62.0" />
-            <TextField fx:id="cooling" layoutX="970.0" layoutY="97.0" />
+            <Label fx:id="label1" layoutX="870.0" layoutY="67.0" prefHeight="17.0" prefWidth="106.0" text="Temperature :" />
+            <Label fx:id="label2" layoutX="823.0" layoutY="102.0" prefHeight="17.0" prefWidth="224.0" text="Cooling rate( &gt;0,&lt;1)  :" />
+            <TextField fx:id="temperature" layoutX="969.0" layoutY="62.0" text="10" />
+            <TextField fx:id="coolingRate" layoutX="970.0" layoutY="97.0" text="0.99" />
+            <Label fx:id="label3" layoutX="755.0" layoutY="137.0" prefHeight="17.0" prefWidth="224.0" text="Bearing number(0-nbIterations) :" />
+            <TextField fx:id="bearingNb" layoutX="969.0" layoutY="132.0" text="10" />
          </children>
       </AnchorPane>
    </children>
