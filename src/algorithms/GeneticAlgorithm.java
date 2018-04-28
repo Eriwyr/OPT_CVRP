@@ -1,16 +1,13 @@
 package algorithms;
 
-import com.sun.tools.internal.ws.wsdl.document.soap.SOAPUse;
+
 import dataStructure.Client;
 import dataStructure.Itineraries;
-import dataStructure.Itinerary;
 import dataStructure.neighborhood.TwoOpt;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 public class GeneticAlgorithm implements Runnable{
@@ -23,6 +20,7 @@ public class GeneticAlgorithm implements Runnable{
     private int nbReproduction;
     private Itineraries bestKnown;
     private int populationSize;
+    private boolean isFinished;
 
     public GeneticAlgorithm(LinkedList<Client> clients, int nbIteration, int probaCross, int nbReproduction, Itineraries itineraries, int populationSize ) {
         this.clients = clients;
@@ -33,6 +31,7 @@ public class GeneticAlgorithm implements Runnable{
         random = new Random();
         this.bestKnown = itineraries;
         this.populationSize = populationSize;
+        isFinished = false;
     }
 
 
@@ -503,7 +502,7 @@ public class GeneticAlgorithm implements Runnable{
 
         //nbIteration=10;
         while(i<nbIteration){
-            System.out.println("=== iteration "+i+" ===");
+
 
             reproductionOverPopulationProba(nbReproduction);
             //System.out.println("population après reproduction \n"+population.size());
@@ -512,7 +511,7 @@ public class GeneticAlgorithm implements Runnable{
             for (Itineraries itineraries : population) {
                 System.out.print(itineraries.getClientsFromItineraries().size()+", ");
             }*/
-            System.out.println("\n==================");
+
 
             if(random.nextInt(100)<probaCross){
                mutationOverPopulation(populationSize);
@@ -535,7 +534,6 @@ public class GeneticAlgorithm implements Runnable{
 
             bestKnown.setItineraries(foundBestSolution().getItineraries());
 
-            System.out.println("current best solution :"+bestKnown.calcDistance());
             i++;
         }
 
@@ -549,5 +547,12 @@ public class GeneticAlgorithm implements Runnable{
 
         //System.out.println(bestKnown.getClientsFromItineraries().size());
         System.out.println("Finished");
+        isFinished =true;
+        Thread.interrupted();
+
+    }
+
+    public boolean isFinished() {
+        return isFinished;
     }
 }

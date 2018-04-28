@@ -315,4 +315,6 @@ public class Itineraries extends Observable {
     public double getDistanceTotale() {
         return distanceTotale;
     }
+
+
 }

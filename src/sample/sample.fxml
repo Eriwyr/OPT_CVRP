@@ -1,34 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" maxHeight="768.0" maxWidth="1024.0" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" vgap="10" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<GridPane alignment="center" hgap="10" maxHeight="800.0" maxWidth="1340.0" minHeight="800.0" minWidth="1340.0" prefHeight="800.0" prefWidth="1340.0" vgap="10" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane prefHeight="200.0" prefWidth="1440.0">
          <children>
-            <Canvas fx:id="canvas" height="718.0" layoutY="45.0" width="1024.0" />
-            <Button fx:id="stopBtn" layoutX="125.0" layoutY="3.0" mnemonicParsing="false" onAction="#stop" prefHeight="29.0" prefWidth="78.0" style="-fx-background-color: red;" text="Stop" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font></Button>
-            <Button fx:id="playBtn" layoutX="12.0" layoutY="3.0" mnemonicParsing="false" onAction="#play" prefHeight="29.0" prefWidth="78.0" style="-fx-background-color: lightblue;" text="Initialize" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font></Button>
-            <Button fx:id="startBtn" layoutX="813.0" layoutY="5.0" mnemonicParsing="false" onAction="#startSim" prefHeight="29.0" prefWidth="177.0" style="-fx-background-color: lightgreen;" text="Launch simulation" textFill="WHITE">
+            <Canvas fx:id="canvas" height="720.0" layoutX="2.0" layoutY="45.0" width="1340.0" />
+            <Button fx:id="stopBtn" layoutX="217.0" layoutY="-3.0" mnemonicParsing="false" onAction="#stop" prefHeight="29.0" prefWidth="78.0" style="-fx-background-color: red;" text="Stop" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <CheckBox fx:id="check1" layoutX="278.0" layoutY="11.0" mnemonicParsing="false" onAction="#chooseAlgorithm1" selected="true" text="Simulated Annealing" />
-            <CheckBox fx:id="check2" layoutX="457.0" layoutY="10.0" mnemonicParsing="false" onAction="#chooseAlgorithm2" text="Genetic Algorithm" />
+            <Button fx:id="startBtn" layoutX="14.0" layoutY="-3.0" mnemonicParsing="false" onAction="#startSim" prefHeight="29.0" prefWidth="177.0" style="-fx-background-color: lightgreen;" text="Launch simulation" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
+            <CheckBox fx:id="check1" layoutX="331.0" layoutY="3.0" mnemonicParsing="false" onAction="#chooseAlgorithm1" selected="true" text="Simulated Annealing" />
+            <CheckBox fx:id="check2" layoutX="509.0" layoutY="4.0" mnemonicParsing="false" onAction="#chooseAlgorithm2" text="Genetic Algorithm" />
+            <Line endX="1235.0" layoutX="103.0" layoutY="59.0" startX="-0.0" stroke="DARKSLATEGRAY" />
+            <LineChart fx:id="chart" layoutX="828.0" layoutY="351.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
          </children>
       </AnchorPane>
    </children>

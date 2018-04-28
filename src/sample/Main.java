@@ -29,8 +29,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         setPrimaryStage(primaryStage); // **Set the Stage**
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        root.setStyle("-fx-background-color: #f0ede5;");
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 1024, 768));
+        primaryStage.setScene(new Scene(root, 1440, 800));
         primaryStage.show();
 
     }
