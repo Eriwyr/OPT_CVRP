@@ -54,14 +54,7 @@ public class Itinerary {
         return logisticCenter;
     }
 
-    public int CalcTotalQuantity(){
-        totalQuantity=0;
-        for (Client client:itinerary) {
-            totalQuantity += client.getQuantity();
-        }
-        return totalQuantity;
 
-    }
 
 
 
@@ -84,6 +77,29 @@ public class Itinerary {
         }
         return totalDistance;
     }
+    public double distanceToLogisticCenter(Client client) {
+
+        double X = pow(abs(((double)client.getX() - (double)logisticCenter.getX())),2);
+        double Y = pow(abs(((double)client.getY() - (double)logisticCenter.getY())),2);
+
+        return sqrt(X+Y);
+    }
+
+
+    public double calcTotaDistance(Client logisticCenter){
+
+        double X = pow(abs(((double)itinerary.getFirst().getX() - (double)logisticCenter.getX())),2);
+        double Y = pow(abs(((double)itinerary.getFirst().getY() - (double)logisticCenter.getY())),2);
+
+        double distance = sqrt(X+Y);
+
+         X = pow(abs(((double)itinerary.getLast().getX() - (double)logisticCenter.getX())),2);
+        Y = pow(abs(((double)itinerary.getLast().getY() - (double)logisticCenter.getY())),2);
+
+        distance += sqrt(X+Y);
+
+        return calcTotaDistance() + distance;
+    }
 
     public void inversion(int index1, int index2) {
         try {
@@ -95,11 +111,14 @@ public class Itinerary {
         }
     }
 
+
+
+
+
     public int calcTotalQuantity() {
         totalQuantity = 0;
         for (Client client :itinerary ) {
             totalQuantity += client.getQuantity();
-
         }
         return totalQuantity;
     }
@@ -158,13 +177,14 @@ public class Itinerary {
         itinerary.add(i, client);
     }
 
-    public void remove(int i) {
+    public Client remove(int i) {
 
         try {
-            itinerary.remove(i);
+            return itinerary.remove(i);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public void remove(Client client) {

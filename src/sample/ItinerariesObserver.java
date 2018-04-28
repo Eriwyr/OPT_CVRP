@@ -78,13 +78,13 @@ public class ItinerariesObserver implements Observer{
         gc.setLineWidth(3);
 
         gc.setFill(Color.BLACK);
-        gc.fillText("Iteration number : " + String.valueOf(callNumber), 24, 44);
+        gc.fillText("Neighbors choosen : " + String.valueOf(callNumber), 24, 44);
 
         int j = 0;
         for (Itinerary itinerary : itineraries.getItineraries()) {
             tempClient = logisticCenter;
             gc.setFill(color[j]);
-            gc.fillText("Itinerary " + j + " : " + String.valueOf(itinerary.calcTotaDistance()), 24, 94 + 30 * j);
+            gc.fillText("Itinerary " + j + " : " + String.valueOf(itinerary.calcTotaDistance(itinerary.getLogisticCenter())), 24, 94 + 30 * j);
 
             for (Client client : itinerary.getItinerary()) {
                 gc.fillOval(client.getX() * scale + xOffset, client.getY() * scale + yOffset, clientScale, clientScale);

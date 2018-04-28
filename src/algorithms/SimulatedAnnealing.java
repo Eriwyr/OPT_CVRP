@@ -6,6 +6,7 @@ import static java.lang.Math.exp;
 import dataStructure.neighborhood.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class SimulatedAnnealing implements Runnable{
@@ -14,7 +15,9 @@ public class SimulatedAnnealing implements Runnable{
     private Random random;
     private Itineraries xmin;
     ArrayList<NeighborhoodStrategie>neighborhoods;
-    public SimulatedAnnealing(Itineraries itineraries) {
+    int iterationNumber;
+    int bearingNumber;
+    public SimulatedAnnealing(Itineraries itineraries, int iterationNumber, int bearingNumber) {
 
         System.out.println("Start");
         neighborhoods = new ArrayList<>();
@@ -25,7 +28,8 @@ public class SimulatedAnnealing implements Runnable{
         neighborhoods.add(new TwoOpt());
         xmin = itineraries;
         this.itineraries= itineraries;
-
+        this.bearingNumber=bearingNumber;
+        this.iterationNumber=iterationNumber;
 
     }
 
@@ -48,12 +52,12 @@ public class SimulatedAnnealing implements Runnable{
     public void run() {
         float t0 = 10.0f;
         float t = t0;
-        int n1 =1000; //TODO determine n1
-        int n2 =10; //TODO determine n2
+        //int n1 =1000; //TODO determine n1
+        //int n2 =10; //TODO determine n2
 
         double distanceMin = xmin.calcDistance();
         System.out.println("Début : ");
-        //System.out.println("Start distance : "+distanceMin);
+        System.out.println("Start distance : "+distanceMin);
         float lambda =0.99f;
 
 
@@ -68,26 +72,29 @@ public class SimulatedAnnealing implements Runnable{
         float p;
 
         random = new Random();
-        TwoOpt neighborhood = new TwoOpt();
-        //InvertionBeteweenItineraries neighborhood = new InvertionBeteweenItineraries();
-        //InversionWithinItinerary neighborhood = new InversionWithinItinerary();
-        //MoveClient neighborhood= new MoveClient(); //TODO : correct
+        List<NeighborhoodStrategie> listNeighborhoodStrategie= new ArrayList<>();
+        listNeighborhoodStrategie.add(new TwoOpt());
+        listNeighborhoodStrategie.add(new InvertionBeteweenItineraries());
+        listNeighborhoodStrategie.add(new InversionWithinItinerary());
+        listNeighborhoodStrategie.add(new MoveClient());
+        NeighborhoodStrategie neighborhood = null;
+
+
+
+
+        //MoveClient neighborhood = new MoveClient();
 
         double fmin = itineraries.calcDistance();
-        for(int k = 0 ; k<n1; k++){
-            for(int l = 0 ; l<n2; l++){
-                /*System.out.println("\n");
-                System.out.println("================================= START =======================================");
-                System.out.println("current x :");
-                System.out.println(xi);
-                System.out.println();
-                System.out.println("\n---------------------------- DEBUT ALGO -----------------------------------\n");*/
+        for(int k = 0 ; k<iterationNumber; k++){
+            for(int l = 0 ; l<bearingNumber; l++){
+
+                int n = random.nextInt(listNeighborhoodStrategie.size());
+                System.out.println(n);
+                neighborhood = listNeighborhoodStrategie.get(2);
+
+
                 y = neighborhood.computeNeighbor(xi);
-                /*System.out.println("\n---------------------------- FIN ALGO -----------------------------------\n");
-                System.out.println("Computed y : ");
-                System.out.println(y);*/
                 distanceNeighbor = y.calcDistance();
-                //System.out.println("================================= FINISH =======================================");
 
                 distanceX = xi.calcDistance();
                 deltaDistance = distanceNeighbor - distanceX;
@@ -96,28 +103,30 @@ public class SimulatedAnnealing implements Runnable{
                     xi.setItineraries(y.getItineraries());
                     distanceX = xi.calcDistance();
 
-                    //System.out.println("<0, nouveau distcancex = "+distanceX);
-                    /*if (distanceX < distanceMin ) {
-                        distanceMin =  distanceX;
-                        xmin = new Itineraries(xi);
-                    }*/
+
                 } else {
                     p = random.nextFloat();
                     if (p<exp(-deltaDistance/t)) {
-                        //xi.setItineraries(y.getItineraries());
+                        xi.setItineraries(y.getItineraries());
 
-                        xi.setItineraries(LocalOpt.optimize(y).getItineraries());
+                        //xi.setItineraries(LocalOpt.optimize(y).getItineraries());
                         distanceX = xi.calcDistance();
+                    } else {
+                        xi.setItineraries(xi.getItineraries());
                     }
 
 
                 }
 
+
             }
+
             t = t*lambda;
         }
+
+        //xi.setItineraries(xi.getItineraries());
         System.out.println("Final distance : "+distanceX);
-        System.out.println("xi : ");
+        /*System.out.println("xi : ");*/
         System.out.println(xi);
         /*random = new Random();
         this.itineraries = itineraries;

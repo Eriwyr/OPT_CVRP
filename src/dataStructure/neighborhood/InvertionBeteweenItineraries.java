@@ -30,8 +30,8 @@ public class InvertionBeteweenItineraries implements NeighborhoodStrategie{
                 index2 = random.nextInt(newItineraries.getItineraries().get(indexItinerary2).getItinerary().size());
 
             newItineraries.invertionBeteweenItineraries(indexItinerary1, indexItinerary2, index1, index2);
-            quantityItinerary1 = newItineraries.get(indexItinerary1).CalcTotalQuantity();
-            quantityItinerary2 = newItineraries.get(indexItinerary2).CalcTotalQuantity();
+            quantityItinerary1 = newItineraries.get(indexItinerary1).calcTotalQuantity();
+            quantityItinerary2 = newItineraries.get(indexItinerary2).calcTotalQuantity();
 
         }
 

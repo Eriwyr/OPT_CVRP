@@ -199,8 +199,8 @@ public class TwoOpt implements NeighborhoodStrategie {
             //System.out.println("newItineraries.get(indexItinerary1) = "+newItineraries.get(indexItinerary1));
             //System.out.println("newItineraries.get(indexItinerary2) = "+newItineraries.get(indexItinerary2));
 
-            quantityItinerary1 = itinerariesToBeReturned.get(indexItinerary1).CalcTotalQuantity();
-            quantityItinerary2 = itinerariesToBeReturned.get(indexItinerary2).CalcTotalQuantity();
+            quantityItinerary1 = itinerariesToBeReturned.get(indexItinerary1).calcTotalQuantity();
+            quantityItinerary2 = itinerariesToBeReturned.get(indexItinerary2).calcTotalQuantity();
 
             //System.out.println("quantityItinerary1 "+quantityItinerary1 +" quantityItinerary2  "+quantityItinerary2);
         }

@@ -6,27 +6,53 @@ import dataStructure.Itineraries;
 public class MoveClient implements NeighborhoodStrategie {
     @Override
     public Itineraries computeNeighbor(Itineraries itinerariesSource) {
-        Itineraries newItineraries = new Itineraries(itinerariesSource);
-
-        int indexItiniraryFrom = random.nextInt(newItineraries.getNumberOfItineraries());
-        int indexItiniraryTo = random.nextInt(newItineraries.getNumberOfItineraries());
-
-        int indexClientToMove = random.nextInt(newItineraries.get(indexItiniraryFrom).size());
-
-        int indexClientNewPosition = indexClientToMove;
-        while (indexClientNewPosition == indexClientToMove)
-            indexClientToMove = random.nextInt(newItineraries.get(indexItiniraryTo).size());
+        Itineraries newItineraries =null;
 
         int quantityItineraryTo = maxCapacity +1;
+        int indexItiniraryFrom=0;
+        int indexItiniraryTo ;
+        int indexClientToMove;
+        int indexClientNewPosition;
 
+
+        Client clientMoved;
         while (quantityItineraryTo > maxCapacity) {
 
-            Client clientMoving = newItineraries.get(indexItiniraryFrom).getItinerary().remove(indexClientToMove);
-            newItineraries.get(indexItiniraryFrom).getItinerary().add(indexClientNewPosition,clientMoving );
 
-            quantityItineraryTo = newItineraries.get(indexItiniraryFrom).CalcTotalQuantity();
+            indexItiniraryFrom = random.nextInt(itinerariesSource.size());
+            indexClientToMove = random.nextInt(itinerariesSource.get(indexItiniraryFrom).size());
+
+            indexItiniraryTo = random.nextInt(itinerariesSource.size());
+
+
+            if (itinerariesSource.get(indexItiniraryFrom).size() != 1) {
+                if (indexItiniraryFrom == indexItiniraryTo) {
+
+
+                    indexClientNewPosition = indexClientToMove;
+
+                    while (indexClientNewPosition == indexClientToMove)
+                        indexClientNewPosition = random.nextInt(itinerariesSource.get(indexItiniraryTo).size());
+
+
+
+                } else {
+                    indexClientNewPosition = random.nextInt(itinerariesSource.get(indexItiniraryTo).size());
+                }
+
+                    newItineraries = new Itineraries(itinerariesSource);
+
+                    clientMoved = newItineraries.get(indexItiniraryFrom).remove(indexClientToMove);
+                    newItineraries.get(indexItiniraryTo).add(indexClientNewPosition, clientMoved);
+                    quantityItineraryTo = newItineraries.get(indexItiniraryTo).calcTotalQuantity();
+
+
+
+
+            }
 
         }
+
         return  newItineraries;
     }
 }

@@ -85,10 +85,10 @@ public class Controller {
             this.itineraries = new Itineraries();
             Canvas canvas = (Canvas) ((Button) event.getSource()).getScene().lookup("#canvas");
             System.out.println(canvas);
-            obs = new ItinerariesObserver(canvas, itineraries,1,1000,distancies);
+            obs = new ItinerariesObserver(canvas, itineraries,50,1000,distancies);
             itineraries.addObserver(obs);
             loadItinirariesFromFile();
-            SimulatedAnnealing sim = new SimulatedAnnealing(itineraries);
+            SimulatedAnnealing sim = new SimulatedAnnealing(itineraries, 1000, 10);
             t = new Thread(sim);
             t.start();
         }

@@ -496,7 +496,7 @@ public class GeneticAlgorithm implements Runnable{
         System.out.println("==================");*/
 
         double begin = bestKnown.calcDistance();
-        System.out.println("first solution "+bestKnown.calcDistance());
+        //System.out.println("first solution "+bestKnown.calcDistance());
 
         //System.out.println("first best solution :"+bestKnown.calcDistance());
 
@@ -537,6 +537,7 @@ public class GeneticAlgorithm implements Runnable{
             i++;
         }
 
+
         System.out.println("Begin = "+begin);
         System.out.println("Final best solution :"+bestKnown.calcDistance());
         /*for (Itinerary itinerary : bestKnown.getItineraries()) {
@@ -550,7 +551,7 @@ public class GeneticAlgorithm implements Runnable{
         isFinished =true;
         Thread.interrupted();
 
-        System.out.println(bestKnown);
+       // System.out.println(bestKnown);
     }
 
     public boolean isFinished() {
