@@ -91,7 +91,7 @@ public class SimulatedAnnealing implements Runnable{
 
                 int n = random.nextInt(listNeighborhoodStrategie.size());
                 System.out.println(n);
-                neighborhood = listNeighborhoodStrategie.get(2);
+                neighborhood = listNeighborhoodStrategie.get(n);
 
 
                 y = neighborhood.computeNeighbor(xi);
