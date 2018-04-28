@@ -43,6 +43,12 @@ public class Itinerary {
         }
         //totalQuantity=0;
     }
+    public Itinerary(Client logisticCenter) {
+        this.itinerary = new LinkedList<>();
+        this.totalQuantity = 0;
+        this.totalDistance = 0;
+        this.logisticCenter = logisticCenter;
+    }
 
     public Client getLogisticCenter() {
         return logisticCenter;
@@ -57,15 +63,7 @@ public class Itinerary {
 
     }
 
-    public double distanceDeuxClients(Client client1, Client client2) {
-        double X = 0;
-        double Y = 0;
 
-        X = pow(abs(((double)client1.getX() - (double)client2.getX())),2);
-        Y = pow(abs(((double)client1.getY() - (double)client2.getY())),2);
-
-        return (sqrt(X+Y));
-    }
 
     public double calcTotaDistance(){
         ListIterator<Client> iterator = itinerary.listIterator();

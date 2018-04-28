@@ -550,6 +550,7 @@ public class GeneticAlgorithm implements Runnable{
         isFinished =true;
         Thread.interrupted();
 
+        System.out.println(bestKnown);
     }
 
     public boolean isFinished() {

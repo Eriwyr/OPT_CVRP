@@ -1,6 +1,7 @@
 package sample;
 
 import algorithms.GeneticAlgorithm;
+import algorithms.LocalOpt;
 import dataStructure.Client;
 import dataStructure.Itineraries;
 import javafx.application.Application;
@@ -38,6 +39,8 @@ public class Main extends Application {
 
     public static void main(String[] args) {
        launch(args);
+        //LocalOpt.optimize();
+
 
        /* Client A = new Client(0, 0, 0, 0);
         Client client1 = new Client(1, 1, 1, 0);

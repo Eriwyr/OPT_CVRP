@@ -52,6 +52,7 @@ public class SimulatedAnnealing implements Runnable{
         int n2 =10; //TODO determine n2
 
         double distanceMin = xmin.calcDistance();
+        System.out.println("Début : ");
         //System.out.println("Start distance : "+distanceMin);
         float lambda =0.99f;
 
@@ -94,6 +95,7 @@ public class SimulatedAnnealing implements Runnable{
 
                     xi.setItineraries(y.getItineraries());
                     distanceX = xi.calcDistance();
+
                     //System.out.println("<0, nouveau distcancex = "+distanceX);
                     /*if (distanceX < distanceMin ) {
                         distanceMin =  distanceX;
@@ -102,11 +104,12 @@ public class SimulatedAnnealing implements Runnable{
                 } else {
                     p = random.nextFloat();
                     if (p<exp(-deltaDistance/t)) {
-                        xi.setItineraries(y.getItineraries());
-                        //System.out.println("nouveau distcancex = "+distanceX);
-                    } else {
-                        //System.out.println("pas de nouveau distancex");
+                        //xi.setItineraries(y.getItineraries());
+
+                        xi.setItineraries(LocalOpt.optimize(y).getItineraries());
+                        distanceX = xi.calcDistance();
                     }
+
 
                 }
 
