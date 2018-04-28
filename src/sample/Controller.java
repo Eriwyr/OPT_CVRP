@@ -11,6 +11,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 import manageFiles.ParseFiles;
 
 import java.io.FileNotFoundException;
@@ -26,11 +27,23 @@ public class Controller {
     private Thread t;
     private ArrayList<Double> distancies;
 
+    private int numberOfIteration;
+    private int temperatureNumber;
+    private int coolingRate;
+
+
     @FXML
     private CheckBox check1;
 
     @FXML
     private CheckBox check2;
+
+    @FXML
+    private TextField nbIterations;
+
+    @FXML
+    private TextField temperature;
+
 
     @FXML
     Canvas canvas;
@@ -43,6 +56,8 @@ public class Controller {
         obs = null;
         t=null;
         distancies = new ArrayList<>();
+        this.numberOfIteration = 0;
+        this.temperatureNumber =0;
     }
 
     public void loadItinirariesFromFile(){
@@ -81,11 +96,15 @@ public class Controller {
     public void startSim(ActionEvent event){
         // === Simulated Annealing ===
         reset();
+
         if(check1.isSelected()) {
+
+            getParametersAnnealing();
+
             this.itineraries = new Itineraries();
             Canvas canvas = (Canvas) ((Button) event.getSource()).getScene().lookup("#canvas");
             System.out.println(canvas);
-            obs = new ItinerariesObserver(canvas, itineraries,50,1000,distancies);
+            obs = new ItinerariesObserver(canvas, itineraries,1,numberOfIteration,distancies);
             itineraries.addObserver(obs);
             loadItinirariesFromFile();
             SimulatedAnnealing sim = new SimulatedAnnealing(itineraries, 1000, 10, 10, 0.99f);
@@ -93,20 +112,21 @@ public class Controller {
             t.start();
         }
         else if(check2.isSelected()){
+
+            getParametersGenetic();
             this.itineraries = new Itineraries();
             Canvas canvas = (Canvas) ((Button)event.getSource()).getScene().lookup("#canvas");
             System.out.println(canvas);
             //itineraries = new Itineraries();
-            obs = new ItinerariesObserver(canvas,itineraries,100,7000,distancies);
+            obs = new ItinerariesObserver(canvas,itineraries,100,numberOfIteration,distancies);
             itineraries.addObserver(obs);
             loadClientsFromFile();
             itineraries.generateRandomItineraries(clientsFromFile);
 
-            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(clientsFromFile, 7000 ,50,80,  itineraries, 100);
+            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(clientsFromFile, numberOfIteration ,50,80,  itineraries, 100);
 
             t = new Thread(geneticAlgorithm);
             t.start();
-            System.out.println("OKOKOKOKOKOK");
         }
     }
 
@@ -152,6 +172,52 @@ public class Controller {
         series.setName("Evolution de la distance totale");
         chart.setAnimated(false);
         chart.getData().add(series);
+    }
+
+    public int getNbIterations(){
+        int iterations = 0;
+
+        String tmp = nbIterations.getText();
+
+        try {
+            if(tmp.matches("[0-9]*")){
+                iterations = Integer.parseInt(tmp);
+
+            }
+        }
+        catch(NumberFormatException e){
+            return 0;
+        }
+        return iterations;
+
+
+    }
+
+    public int getTemperature(){
+        int temperatureNumber = 0;
+
+        String tmp = nbIterations.getText();
+
+        try {
+            if(tmp.matches("[0-9]*")){
+                temperatureNumber = Integer.parseInt(tmp);
+
+            }
+        }
+        catch(NumberFormatException e){
+            return 0;
+        }
+        return temperatureNumber;
+
+    }
+
+    public void getParametersAnnealing(){
+       this.numberOfIteration = getNbIterations();
+        this.temperatureNumber = getTemperature();
+    }
+
+    public void getParametersGenetic(){
+
     }
 
 
