@@ -3,11 +3,15 @@ package sample;
 import dataStructure.Client;
 import dataStructure.Itineraries;
 import dataStructure.Itinerary;
+import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,8 +30,9 @@ public class ItinerariesObserver implements Observer{
     private static int yOffset = 100;
     private static float clientScale = 7.0f;
     private static float logisticCenterScale = 10.0f;
+    private ArrayList<Double> distances;
 
-    public ItinerariesObserver(Canvas canvas, Itineraries itineraries,int refreshRate, int numberOfIteration) {
+    public ItinerariesObserver(Canvas canvas, Itineraries itineraries, int refreshRate, int numberOfIteration, ArrayList<Double> distances) {
         this.canvas = canvas;
         this.gc = canvas.getGraphicsContext2D();
         this.itineraries = itineraries;
@@ -35,8 +40,8 @@ public class ItinerariesObserver implements Observer{
         this.refreshRate = refreshRate;
         isLastIteration = false;
         this.numberOfIteration = numberOfIteration;
+        this.distances = distances;
         callNumber = 0;
-
     }
 
     @Override
@@ -48,6 +53,7 @@ public class ItinerariesObserver implements Observer{
         if(callNumber == numberOfIteration){
             drawItineraries();
         }
+        distances.add(itineraries.calcDistance());
     }
 
 
@@ -79,6 +85,7 @@ public class ItinerariesObserver implements Observer{
             tempClient = logisticCenter;
             gc.setFill(color[j]);
             gc.fillText("Itinerary " + j + " : " + String.valueOf(itinerary.calcTotaDistance()), 24, 94 + 30 * j);
+
             for (Client client : itinerary.getItinerary()) {
                 gc.fillOval(client.getX() * scale + xOffset, client.getY() * scale + yOffset, clientScale, clientScale);
                 gc.strokeLine(client.getX() * scale + xOffset, client.getY() * scale + yOffset, tempClient.getX() * scale + xOffset, tempClient.getY() * scale + yOffset);
@@ -93,6 +100,8 @@ public class ItinerariesObserver implements Observer{
         gc.setFill(Color.BLACK);
 
         gc.fillText("Total distance : " + String.valueOf(itineraries.calcDistance()), 24, 94 + 30 * j);
+
+
     }
 
 
