@@ -24,9 +24,6 @@ public class InvertionBeteweenItineraries implements NeighborhoodStrategie{
             while (indexItinerary2 == indexItinerary1)
                 indexItinerary2 = random.nextInt(newItineraries.getNumberOfItineraries());
 
-            System.out.println("indexItinerary1 "+indexItinerary1);
-            System.out.println("indexItinerary2 "+indexItinerary2);
-
             int index1 = random.nextInt(newItineraries.getItineraries().get(indexItinerary1).getItinerary().size());
             int index2 = index2 = random.nextInt(newItineraries.getItineraries().get(indexItinerary2).getItinerary().size());;
 

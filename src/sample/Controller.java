@@ -104,7 +104,7 @@ public class Controller {
             this.itineraries = new Itineraries();
             Canvas canvas = (Canvas) ((Button) event.getSource()).getScene().lookup("#canvas");
             System.out.println(canvas);
-            obs = new ItinerariesObserver(canvas, itineraries,1,numberOfIteration,distancies);
+            obs = new ItinerariesObserver(canvas, itineraries,10,numberOfIteration,distancies);
             itineraries.addObserver(obs);
             loadItinirariesFromFile();
             SimulatedAnnealing sim = new SimulatedAnnealing(itineraries, 1000, 10, 10, 0.99f);
