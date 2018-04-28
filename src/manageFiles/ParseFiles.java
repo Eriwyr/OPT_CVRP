@@ -36,8 +36,8 @@ public class ParseFiles {
         return null;
     }
 
-    public ArrayList<Client> createClientsFromFile() throws IOException {
-        ArrayList<Client> clients = new ArrayList<Client>();
+    public LinkedList<Client> createClientsFromFile() throws IOException {
+        LinkedList<Client> clients = new LinkedList<Client>();
 
         LinkedList<String>lines = readFile(); //each line is client informations
 

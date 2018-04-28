@@ -11,17 +11,24 @@ import static java.util.stream.Collectors.joining;
 public class Itineraries extends Observable {
     private LinkedList<Itinerary> itineraries;
     private Client logisticCenter;
-
+    private double distanceTotale;
 
     public void setItineraries(LinkedList<Itinerary> itineraries) {
         this.itineraries = itineraries;
+        this.distanceTotale = calcDistance();
         setChanged();
         notifyObservers();
 
     }
 
     public Itineraries(LinkedList<Itinerary> itineraries, Client logisticCenter) {
+
         this.itineraries = itineraries;
+        this.logisticCenter = logisticCenter;
+        this.distanceTotale = calcDistance();
+    }
+
+    public void setLogisticCenter(Client logisticCenter) {
         this.logisticCenter = logisticCenter;
     }
 
@@ -30,10 +37,10 @@ public class Itineraries extends Observable {
         itineraries = new LinkedList<>();
         for (Itinerary it :itinerariesSource.getItineraries()) {
             itineraries.add(new Itinerary(it.getItinerary(), it.getLogisticCenter()));
-
         }
         logisticCenter = new Client(itinerariesSource.getLogisticCenter());
 
+        this.distanceTotale = calcDistance();
     }
     public Itineraries() {
         itineraries = new LinkedList<>();
@@ -41,7 +48,10 @@ public class Itineraries extends Observable {
     }
 
     public void add(Itinerary itinerary) {
+
         itineraries.add(itinerary);
+        this.distanceTotale = calcDistance();
+
     }
 
     public Client getLogisticCenter() {
@@ -52,6 +62,7 @@ public class Itineraries extends Observable {
     public void invertionWithinItinerary(int indexItinerary, int indexClient1, int indexClient2) {
 
         itineraries.get(indexItinerary).inversion(indexClient1,indexClient2 );
+        this.distanceTotale = calcDistance();
     }
 
     public void invertionBeteweenItineraries(int indexItinerary1, int indexItinerary2, int indexClient1, int indexClient2) {
@@ -66,6 +77,7 @@ public class Itineraries extends Observable {
 
         itinerary1.getItinerary().add(indexClient1, client2);
         itinerary2.getItinerary().add(indexClient2, client1);
+        this.distanceTotale = calcDistance();
     }
 
     public int getNumberOfItineraries() {
@@ -97,9 +109,9 @@ public class Itineraries extends Observable {
 
         toStringBuilder.append(itinerariesListToString);
 
-      /*  toStringBuilder.append("\nDistance totale : ")
+        toStringBuilder.append("\nDistance totale : ")
                 .append(calcDistance())
-                .append("\n");*/
+                .append("\n");
         return toStringBuilder.toString();
 
     }
@@ -122,23 +134,30 @@ public class Itineraries extends Observable {
 
     }
 
-    public void generateRandomItineraries(ArrayList<Client> clients){
+    public void generateRandomItineraries(LinkedList<Client> clients){
+        //System.out.println("==== generateRandomItineraries ====");
         int randomIndex = 0;
         int quantity=0;
-        ArrayList<Client> clientsCopy = new ArrayList<>();
+        LinkedList<Client> clientsCopy = new LinkedList<>();
         for (Client client: clients) {
             clientsCopy.add(client);
         }
-        clientsCopy.remove(0);
+
+        if (clientsCopy.get(0).getId() == 0) {
+            logisticCenter = clientsCopy.get(0);
+            clientsCopy.remove(0);
+        }
+
         Client tempClient  = null;
+
         Random random = new Random();
-        logisticCenter = clientsCopy.get(0);
+
         LinkedList<Client> itinerary = new LinkedList<>();
 
         while (!(clientsCopy.size()==1)){
-            System.out.println("size "+clientsCopy.size());
+            //System.out.println("size "+clientsCopy.size());
             randomIndex = random.nextInt(clientsCopy.size()-1);
-            System.out.println("Index "+randomIndex);
+            //System.out.println("Index "+randomIndex);
             tempClient = clientsCopy.get(randomIndex);
             clientsCopy.remove(randomIndex);
             quantity += tempClient.getQuantity();
@@ -152,13 +171,17 @@ public class Itineraries extends Observable {
             itinerary.add(tempClient);
         }
         itineraries.add(new Itinerary(itinerary,logisticCenter));
+        //System.out.println("Nb clients  "+getClientsFromItineraries().size());
+        this.distanceTotale = calcDistance();
 
         setChanged();
         notifyObservers();
+        //System.out.println("==== fin generateRandomItineraries ====");
+
 
     }
 
-    public void generateFirstItineraries(ArrayList<Client> clients){
+    public void generateFirstItineraries(LinkedList<Client> clients){
         int j = 0;
         int quantity=0;
         Client tempClient  = null;
@@ -181,6 +204,7 @@ public class Itineraries extends Observable {
 
         }
         itineraries.add(new Itinerary(itinerary,logisticCenter));
+        this.distanceTotale = calcDistance();
 
         setChanged();
         notifyObservers();
@@ -269,12 +293,26 @@ public class Itineraries extends Observable {
 
     public LinkedList<Client> getClientsFromItineraries(){
         LinkedList<Client> clients = new LinkedList<>();
-        StringBuilder toStringBuilder = new StringBuilder();
 
-        System.out.println(toStringBuilder.toString());
         for (Itinerary itinerary : itineraries)
             clients.addAll(itinerary.getItinerary());
 
         return clients;
+    }
+
+    public int size() {
+          return itineraries.size();
+    }
+
+    public boolean validateQuantities(int maxQuantity) {
+          for (Itinerary itinerary : itineraries) {
+              if(itinerary.calcTotalQuantity() > maxQuantity) return false;
+          }
+          return true;
+
+    }
+
+    public double getDistanceTotale() {
+        return distanceTotale;
     }
 }

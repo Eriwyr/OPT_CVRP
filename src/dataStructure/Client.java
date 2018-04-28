@@ -44,9 +44,9 @@ public class Client {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append(this.id)
-                .append(" (")
+                /*.append(" (")
                 .append(this.quantity)
-                .append(")");
+                .append(")")*/;
 
         return stringBuilder.toString();
 

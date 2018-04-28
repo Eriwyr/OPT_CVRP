@@ -4,19 +4,17 @@ import dataStructure.Itineraries;
 
 import java.util.Random;
 
-public class InvertionBeteweenItineraries {//} implements NeighborhoodStrategie{
+public class InvertionBeteweenItineraries implements NeighborhoodStrategie{
 
     //@Override
     public Itineraries computeNeighbor(Itineraries itinerariesSource) {
         Itineraries newItineraries = new Itineraries(itinerariesSource);
 
-        int maxCapacity = 100;
-        Random random = new Random();
         int quantityItinerary1 = maxCapacity +1;
         int quantityItinerary2 = maxCapacity +1;
 
 
-        while (quantityItinerary2 > maxCapacity || quantityItinerary1 > maxCapacity) {
+        while (quantityItinerary2 > maxCapacity && quantityItinerary1 > maxCapacity) {
 
 
             int indexItinerary1 = random.nextInt(newItineraries.getNumberOfItineraries());

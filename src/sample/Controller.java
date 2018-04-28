@@ -1,5 +1,6 @@
 package sample;
 
+import algorithms.GeneticAlgorithm;
 import algorithms.SimulatedAnnealing;
 import dataStructure.Client;
 import dataStructure.Itineraries;
@@ -12,11 +13,14 @@ import manageFiles.ParseFiles;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Controller {
-    Itineraries itineraries;
-    ItinerariesObserver obs;
+    private Itineraries itineraries;
+    private ItinerariesObserver obs;
+    private LinkedList<Client> clientsFromFile;
 
     @FXML
     private CheckBox check1;
@@ -37,11 +41,28 @@ public class Controller {
 
     }
 
-    public void loadClientFromFile(){
+    public void loadItinirariesFromFile(){
         ParseFiles parser = new ParseFiles("src/data/data01.txt");
         try {
-            ArrayList<Client> clients =  parser.createClientsFromFile();
-            itineraries.generateFirstItineraries(clients);
+            clientsFromFile =  parser.createClientsFromFile();
+            itineraries.generateFirstItineraries(clientsFromFile);
+            //itineraries.generateRandomItineraries(clients);
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+            System.out.println("file doesn't exist");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadClientsFromFile(){
+        ParseFiles parser = new ParseFiles("src/data/data01.txt");
+        try {
+            clientsFromFile =  parser.createClientsFromFile();
+            //itineraries.generateFirstItineraries(clientsFromFile);
+            //itineraries.generateRandomItineraries(clientsFromFile);
         }
         catch (FileNotFoundException e){
             e.printStackTrace();
@@ -54,11 +75,11 @@ public class Controller {
 
     @FXML
     public void play(ActionEvent event){
-        Canvas canvas = (Canvas) ((Button)event.getSource()).getScene().lookup("#canvas");
+        /*Canvas canvas = (Canvas) ((Button)event.getSource()).getScene().lookup("#canvas");
         System.out.println(canvas);
         obs = new ItinerariesObserver(canvas,itineraries);
         itineraries.addObserver(obs);
-        loadClientFromFile();
+        loadItinirariesFromFile();*/
         //SimulatedAnnealing sim = new SimulatedAnnealing(itineraries);
 
 
@@ -66,10 +87,28 @@ public class Controller {
 
     @FXML
     public void startSim(ActionEvent event){
-
+        // === Simulated Annealing ===
+        Canvas canvas = (Canvas) ((Button)event.getSource()).getScene().lookup("#canvas");
+        System.out.println(canvas);
+        obs = new ItinerariesObserver(canvas,itineraries);
+        itineraries.addObserver(obs);
+        loadItinirariesFromFile();
         SimulatedAnnealing sim = new SimulatedAnnealing(itineraries);
         Thread t = new Thread(sim);
         t.start();
+
+        /*Canvas canvas = (Canvas) ((Button)event.getSource()).getScene().lookup("#canvas");
+        System.out.println(canvas);
+        //itineraries = new Itineraries();
+        obs = new ItinerariesObserver(canvas,itineraries);
+        itineraries.addObserver(obs);
+        loadClientsFromFile();
+        itineraries.generateRandomItineraries(clientsFromFile);
+
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(clientsFromFile, 7000 ,50,80,  itineraries, 100);
+
+        Thread t = new Thread(geneticAlgorithm);
+        t.start();*/
     }
 
     @FXML

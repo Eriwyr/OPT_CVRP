@@ -14,17 +14,29 @@ public class Itinerary {
     private Client logisticCenter;
 
 
-    public Itinerary() {
+    public Itinerary(Itinerary newItinerary) {
         this.itinerary = new LinkedList<>();
+        for (Client c : newItinerary.getItinerary()) {
+
+            itinerary.add(c);
+        }
+        this.logisticCenter = newItinerary.getLogisticCenter();
+        if (itinerary.size()>0) {
+            calcTotalQuantity();
+            calcTotaDistance();
+        }
     }
 
     public Itinerary(LinkedList<Client> clients, Client logisticCenter) {
         this.itinerary = new LinkedList<>();
+
         for (Client c : clients) {
 
             itinerary.add(c);
         }
+
         this.logisticCenter = logisticCenter;
+
         if (itinerary.size()>0) {
             calcTotalQuantity();
             calcTotaDistance();
@@ -142,5 +154,27 @@ public class Itinerary {
 
     public void add(Client client) {
         itinerary.add(client);
+    }
+
+    public void add(int i, Client client) {
+        itinerary.add(i, client);
+    }
+
+    public void remove(int i) {
+
+        try {
+            itinerary.remove(i);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void remove(Client client) {
+
+        try {
+            itinerary.remove(client);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
