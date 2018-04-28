@@ -24,6 +24,7 @@ public class Controller {
     private ItinerariesObserver obs;
     private LinkedList<Client> clientsFromFile;
     private Thread t;
+    private ArrayList<Double> distancies;
 
     @FXML
     private CheckBox check1;
@@ -41,6 +42,7 @@ public class Controller {
 
         obs = null;
         t=null;
+        distancies = new ArrayList<>();
     }
 
     public void loadItinirariesFromFile(){
@@ -78,26 +80,12 @@ public class Controller {
     @FXML
     public void startSim(ActionEvent event){
         // === Simulated Annealing ===
-        if(obs != null){
-            obs.clearItineraries();
-            itineraries.deleteObserver(obs);
-        }
-        ArrayList<Integer> tab = new ArrayList<>();
-        tab.add(10);
-        tab.add(20);
-        XYChart.Series<String,Number>  series = new XYChart.Series<String,Number>();
-        series.getData().add(new XYChart.Data<String, Number>("1",100));
-        series.getData().add(new XYChart.Data<String, Number>("1",200));
-        chart.getData().add(series);
-        if(t!=null){
-            t.interrupt();
-        }
-
+        reset();
         if(check1.isSelected()) {
             this.itineraries = new Itineraries();
             Canvas canvas = (Canvas) ((Button) event.getSource()).getScene().lookup("#canvas");
             System.out.println(canvas);
-            obs = new ItinerariesObserver(canvas, itineraries,1,1000);
+            obs = new ItinerariesObserver(canvas, itineraries,1,1000,distancies);
             itineraries.addObserver(obs);
             loadItinirariesFromFile();
             SimulatedAnnealing sim = new SimulatedAnnealing(itineraries);
@@ -109,7 +97,7 @@ public class Controller {
             Canvas canvas = (Canvas) ((Button)event.getSource()).getScene().lookup("#canvas");
             System.out.println(canvas);
             //itineraries = new Itineraries();
-            obs = new ItinerariesObserver(canvas,itineraries,100,7000);
+            obs = new ItinerariesObserver(canvas,itineraries,100,7000,distancies);
             itineraries.addObserver(obs);
             loadClientsFromFile();
             itineraries.generateRandomItineraries(clientsFromFile);
@@ -124,13 +112,21 @@ public class Controller {
 
     @FXML
     public void stop(ActionEvent event){
-        if(obs != null){
-            obs.clearItineraries();
-        }
-        itineraries.deleteObserver(obs);
-        t.interrupt();
+        reset();
     }
 
+    public void reset(){
+        if(obs != null){
+            obs.clearItineraries();
+            itineraries.deleteObserver(obs);
+        }
+        if(distancies != null){
+            distancies.clear();
+        }
+        if(t!=null){
+            t.interrupt();
+        }
+    }
     @FXML
     public void chooseAlgorithm1(ActionEvent event){
         check1 = (CheckBox) ((CheckBox)event.getSource()).getScene().lookup("#check1");
@@ -144,8 +140,19 @@ public class Controller {
         System.out.println("Genetic Algorithm choosed");
     }
 
-    public void reset(){
-
+    @FXML
+    public void displayChart(ActionEvent event){
+        chart.getData().clear();
+        XYChart.Series<String,Number> series = new XYChart.Series<String,Number>();
+        for(int i = 0 ; i<distancies.size();i++){
+            if(i%10==0) {
+                series.getData().add(new XYChart.Data<String, Number>(String.valueOf(i), distancies.get(i)));
+            }
+        }
+        series.setName("Evolution de la distance totale");
+        chart.setAnimated(false);
+        chart.getData().add(series);
     }
+
 
 }

@@ -32,7 +32,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         root.setStyle("-fx-background-color: #f0ede5;");
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 1440, 800));
+        primaryStage.setScene(new Scene(root, 1340, 800));
         primaryStage.show();
 
     }

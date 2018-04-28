@@ -30,15 +30,19 @@
             </Button>
             <CheckBox fx:id="check1" layoutX="331.0" layoutY="3.0" mnemonicParsing="false" onAction="#chooseAlgorithm1" selected="true" text="Simulated Annealing" />
             <CheckBox fx:id="check2" layoutX="509.0" layoutY="4.0" mnemonicParsing="false" onAction="#chooseAlgorithm2" text="Genetic Algorithm" />
-            <Line endX="1235.0" layoutX="103.0" layoutY="59.0" startX="-0.0" stroke="DARKSLATEGRAY" />
-            <LineChart fx:id="chart" layoutX="828.0" layoutY="351.0">
+            <Line endX="1235.0" layoutX="103.0" layoutY="59.0" startX="-102.0" stroke="DARKSLATEGRAY" />
+            <LineChart fx:id="chart" layoutX="791.0" layoutY="207.0" prefHeight="531.0" prefWidth="551.0">
               <xAxis>
-                <CategoryAxis side="BOTTOM" />
+                <CategoryAxis label="iteration" side="BOTTOM" />
               </xAxis>
               <yAxis>
-                <NumberAxis side="LEFT" />
+                <NumberAxis label="Distance" side="LEFT" />
               </yAxis>
             </LineChart>
+            <Button fx:id="refreshChart" layoutX="1035.0" layoutY="746.0" mnemonicParsing="false" onAction="#displayChart" style="-fx-background-color: #2F4F4F;" text="Refresh Distance Chart" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
          </children>
       </AnchorPane>
    </children>
