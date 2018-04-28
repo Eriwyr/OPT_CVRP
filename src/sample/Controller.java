@@ -88,7 +88,7 @@ public class Controller {
             obs = new ItinerariesObserver(canvas, itineraries,50,1000,distancies);
             itineraries.addObserver(obs);
             loadItinirariesFromFile();
-            SimulatedAnnealing sim = new SimulatedAnnealing(itineraries, 1000, 10);
+            SimulatedAnnealing sim = new SimulatedAnnealing(itineraries, 1000, 10, 10, 0.99f);
             t = new Thread(sim);
             t.start();
         }

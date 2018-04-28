@@ -17,7 +17,10 @@ public class SimulatedAnnealing implements Runnable{
     ArrayList<NeighborhoodStrategie>neighborhoods;
     int iterationNumber;
     int bearingNumber;
-    public SimulatedAnnealing(Itineraries itineraries, int iterationNumber, int bearingNumber) {
+    float temperature;
+    float coolingRate;
+
+    public SimulatedAnnealing(Itineraries itineraries, int iterationNumber, int bearingNumber, float temperature, float coolingRate) {
 
         System.out.println("Start");
         neighborhoods = new ArrayList<>();
@@ -30,6 +33,8 @@ public class SimulatedAnnealing implements Runnable{
         this.itineraries= itineraries;
         this.bearingNumber=bearingNumber;
         this.iterationNumber=iterationNumber;
+        this.temperature = temperature;
+        this.coolingRate = coolingRate;
 
     }
 
@@ -50,15 +55,11 @@ public class SimulatedAnnealing implements Runnable{
 
     @Override
     public void run() {
-        float t0 = 10.0f;
-        float t = t0;
-        //int n1 =1000; //TODO determine n1
-        //int n2 =10; //TODO determine n2
 
         double distanceMin = xmin.calcDistance();
-        System.out.println("Début : ");
+
         System.out.println("Start distance : "+distanceMin);
-        float lambda =0.99f;
+
 
 
         Itineraries xi = xmin ;
@@ -106,7 +107,7 @@ public class SimulatedAnnealing implements Runnable{
 
                 } else {
                     p = random.nextFloat();
-                    if (p<exp(-deltaDistance/t)) {
+                    if (p<exp(-deltaDistance/temperature)) {
                         xi.setItineraries(y.getItineraries());
 
                         //xi.setItineraries(LocalOpt.optimize(y).getItineraries());
@@ -121,7 +122,7 @@ public class SimulatedAnnealing implements Runnable{
 
             }
 
-            t = t*lambda;
+            temperature = temperature*coolingRate;
         }
 
         //xi.setItineraries(xi.getItineraries());

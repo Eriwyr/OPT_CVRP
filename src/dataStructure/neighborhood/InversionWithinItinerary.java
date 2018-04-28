@@ -25,12 +25,6 @@ public class InversionWithinItinerary implements NeighborhoodStrategie{
                 while (index2 == index1)
                     index2 = random.nextInt(newItineraries.get(indexItinerary).size());
 
-                System.out.println("Itinerary is " + indexItinerary);
-                System.out.println("index1 " + index1);
-                System.out.println("index2 " + index2);
-
-                System.out.println("avant : ");
-                System.out.println(itinerariesSource);
                 newItineraries.invertionWithinItinerary(indexItinerary, index1, index2);
 
                 System.out.println("après ");
