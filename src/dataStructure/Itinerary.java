@@ -1,10 +1,10 @@
 package dataStructure;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
-import static java.lang.Math.abs;
+import static java.lang.Math.*;
 import static java.util.stream.Collectors.joining;
 
 public class Itinerary {
@@ -21,7 +21,7 @@ public class Itinerary {
             itinerary.add(c);
         }
         this.logisticCenter = newItinerary.getLogisticCenter();
-        if (itinerary.size()>0) {
+        if (itinerary.size() > 0) {
             calcTotalQuantity();
             calcTotaDistance();
         }
@@ -37,12 +37,13 @@ public class Itinerary {
 
         this.logisticCenter = logisticCenter;
 
-        if (itinerary.size()>0) {
+        if (itinerary.size() > 0) {
             calcTotalQuantity();
             calcTotaDistance();
         }
         //totalQuantity=0;
     }
+
     public Itinerary(Client logisticCenter) {
         this.itinerary = new LinkedList<>();
         this.totalQuantity = 0;
@@ -55,48 +56,46 @@ public class Itinerary {
     }
 
 
-
-
-
-    public double calcTotaDistance(){
+    public double calcTotaDistance() {
         ListIterator<Client> iterator = itinerary.listIterator();
         Client client = itinerary.getFirst();
         Client nextClient = null;
         double X = 0;
         double Y = 0;
-        totalDistance=0;
-        while(iterator.hasNext()){
+        totalDistance = 0;
+        while (iterator.hasNext()) {
             nextClient = iterator.next();
 
-            X = pow(abs(((double)client.getX() - (double)nextClient.getX())),2);
-            Y = pow(abs(((double)client.getY() - (double)nextClient.getY())),2);
+            X = pow(abs(((double) client.getX() - (double) nextClient.getX())), 2);
+            Y = pow(abs(((double) client.getY() - (double) nextClient.getY())), 2);
 
-            totalDistance += (sqrt(X+Y));
+            totalDistance += (sqrt(X + Y));
 
             client = nextClient;
         }
         return totalDistance;
     }
+
     public double distanceToLogisticCenter(Client client) {
 
-        double X = pow(abs(((double)client.getX() - (double)logisticCenter.getX())),2);
-        double Y = pow(abs(((double)client.getY() - (double)logisticCenter.getY())),2);
+        double X = pow(abs(((double) client.getX() - (double) logisticCenter.getX())), 2);
+        double Y = pow(abs(((double) client.getY() - (double) logisticCenter.getY())), 2);
 
-        return sqrt(X+Y);
+        return sqrt(X + Y);
     }
 
 
-    public double calcTotaDistance(Client logisticCenter){
+    public double calcTotaDistance(Client logisticCenter) {
 
-        double X = pow(abs(((double)itinerary.getFirst().getX() - (double)logisticCenter.getX())),2);
-        double Y = pow(abs(((double)itinerary.getFirst().getY() - (double)logisticCenter.getY())),2);
+        double X = pow(abs(((double) itinerary.getFirst().getX() - (double) logisticCenter.getX())), 2);
+        double Y = pow(abs(((double) itinerary.getFirst().getY() - (double) logisticCenter.getY())), 2);
 
-        double distance = sqrt(X+Y);
+        double distance = sqrt(X + Y);
 
-         X = pow(abs(((double)itinerary.getLast().getX() - (double)logisticCenter.getX())),2);
-        Y = pow(abs(((double)itinerary.getLast().getY() - (double)logisticCenter.getY())),2);
+        X = pow(abs(((double) itinerary.getLast().getX() - (double) logisticCenter.getX())), 2);
+        Y = pow(abs(((double) itinerary.getLast().getY() - (double) logisticCenter.getY())), 2);
 
-        distance += sqrt(X+Y);
+        distance += sqrt(X + Y);
 
         return calcTotaDistance() + distance;
     }
@@ -106,18 +105,15 @@ public class Itinerary {
 
             Collections.swap(itinerary, index1, index2);
 
-        } catch (IndexOutOfBoundsException e ) {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
     }
 
 
-
-
-
     public int calcTotalQuantity() {
         totalQuantity = 0;
-        for (Client client :itinerary ) {
+        for (Client client : itinerary) {
             totalQuantity += client.getQuantity();
         }
         return totalQuantity;
@@ -147,7 +143,6 @@ public class Itinerary {
                 .append("]\n");
 
         toStringBuilder.append("Clients : ");
-
 
 
         final String arcListToString = itinerary

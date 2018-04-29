@@ -6,11 +6,11 @@ import dataStructure.Itineraries;
 public class MoveClient implements NeighborhoodStrategie {
     @Override
     public Itineraries computeNeighbor(Itineraries itinerariesSource) {
-        Itineraries newItineraries =null;
+        Itineraries newItineraries = null;
 
-        int quantityItineraryTo = maxCapacity +1;
-        int indexItiniraryFrom=0;
-        int indexItiniraryTo ;
+        int quantityItineraryTo = maxCapacity + 1;
+        int indexItiniraryFrom = 0;
+        int indexItiniraryTo;
         int indexClientToMove;
         int indexClientNewPosition;
 
@@ -35,24 +35,21 @@ public class MoveClient implements NeighborhoodStrategie {
                         indexClientNewPosition = random.nextInt(itinerariesSource.get(indexItiniraryTo).size());
 
 
-
                 } else {
                     indexClientNewPosition = random.nextInt(itinerariesSource.get(indexItiniraryTo).size());
                 }
 
-                    newItineraries = new Itineraries(itinerariesSource);
+                newItineraries = new Itineraries(itinerariesSource);
 
-                    clientMoved = newItineraries.get(indexItiniraryFrom).remove(indexClientToMove);
-                    newItineraries.get(indexItiniraryTo).add(indexClientNewPosition, clientMoved);
-                    quantityItineraryTo = newItineraries.get(indexItiniraryTo).calcTotalQuantity();
-
-
+                clientMoved = newItineraries.get(indexItiniraryFrom).remove(indexClientToMove);
+                newItineraries.get(indexItiniraryTo).add(indexClientNewPosition, clientMoved);
+                quantityItineraryTo = newItineraries.get(indexItiniraryTo).calcTotalQuantity();
 
 
             }
 
         }
 
-        return  newItineraries;
+        return newItineraries;
     }
 }

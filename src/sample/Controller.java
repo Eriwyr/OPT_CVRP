@@ -13,6 +13,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import manageFiles.ParseFiles;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class Controller {
 
     private int numberOfIteration;
     private int temperatureNumber;
+    private int freshRate;
     private float coolingRateNumber;
     private int bearingNumber;
     private int populationSizeNumber;
@@ -34,7 +36,7 @@ public class Controller {
     private int reproductionNumber;
     private String fileName;
 
-    ObservableList<String> filesChoice = FXCollections.observableArrayList("Data01","Data02","Data03","Data04","Data05");
+    ObservableList<String> filesChoice = FXCollections.observableArrayList("Data01", "Data02", "Data03", "Data04", "Data05");
 
     @FXML
     private CheckBox check1;
@@ -68,7 +70,7 @@ public class Controller {
     Canvas canvas;
 
     @FXML
-    LineChart<String,Number> chart;
+    LineChart<String, Number> chart;
 
     @FXML
     private ChoiceBox<String> fileChoice;
@@ -76,87 +78,83 @@ public class Controller {
     public Controller() {
 
         obs = null;
-        t=null;
+        t = null;
         distancies = new ArrayList<>();
         this.numberOfIteration = 0;
-        this.temperatureNumber =0;
+        this.temperatureNumber = 0;
         fileName = "src/data/data01.txt";
+        freshRate = 0;
     }
 
 
-
-
-    public void initialize(){
+    public void initialize() {
         fileChoice.setItems(filesChoice);
     }
 
-    public void loadItinirariesFromFile(){
+    public void loadItinirariesFromFile() {
         getFileChoice();
         ParseFiles parser = new ParseFiles(fileName);
         try {
-            clientsFromFile =  parser.createClientsFromFile();
+            clientsFromFile = parser.createClientsFromFile();
             itineraries.generateFirstItineraries(clientsFromFile);
-            //itineraries.generateRandomItineraries(clients);
-        }
-        catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.out.println("file doesn't exist");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void loadClientsFromFile(){
+    public void loadClientsFromFile() {
         getFileChoice();
         ParseFiles parser = new ParseFiles(fileName);
         try {
-            clientsFromFile =  parser.createClientsFromFile();
-            //itineraries.generateFirstItineraries(clientsFromFile);
-            //itineraries.generateRandomItineraries(clientsFromFile);
-        }
-        catch (FileNotFoundException e){
+            clientsFromFile = parser.createClientsFromFile();
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.out.println("file doesn't exist");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    public void startSim(ActionEvent event){
-        // === Simulated Annealing ===
+    public void startSim(ActionEvent event) {
+
         reset();
 
-        if(check1.isSelected()) {
+        if (check1.isSelected()) {
 
             getParametersAnnealing();
-            System.out.println("TEMPRERATURE : "+temperatureNumber);
+
+            freshRate = numberOfIteration / 20;
             this.itineraries = new Itineraries();
+
             Canvas canvas = (Canvas) ((Button) event.getSource()).getScene().lookup("#canvas");
-            System.out.println(canvas);
-            obs = new ItinerariesObserver(canvas, itineraries,500,numberOfIteration,distancies);
+            obs = new ItinerariesObserver(canvas, itineraries, freshRate, numberOfIteration, distancies);
             itineraries.addObserver(obs);
+
             loadItinirariesFromFile();
+
             SimulatedAnnealing sim = new SimulatedAnnealing(itineraries, numberOfIteration, bearingNumber, temperatureNumber, coolingRateNumber);
+
             t = new Thread(sim);
             t.start();
-        }
-        else if(check2.isSelected()){
+        } else if (check2.isSelected()) {
 
             getParametersGenetic();
 
+            freshRate = numberOfIteration / 20;
             this.itineraries = new Itineraries();
-            Canvas canvas = (Canvas) ((Button)event.getSource()).getScene().lookup("#canvas");
-            System.out.println(canvas);
-            //itineraries = new Itineraries();
-            obs = new ItinerariesObserver(canvas,itineraries,500,numberOfIteration,distancies);
+
+            Canvas canvas = (Canvas) ((Button) event.getSource()).getScene().lookup("#canvas");
+            obs = new ItinerariesObserver(canvas, itineraries, freshRate, numberOfIteration, distancies);
             itineraries.addObserver(obs);
+
             loadClientsFromFile();
             itineraries.generateRandomItineraries(clientsFromFile);
 
-            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(clientsFromFile, numberOfIteration ,probaCrossNumber,reproductionNumber,  itineraries, populationSizeNumber);
+            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(clientsFromFile, numberOfIteration, probaCrossNumber, reproductionNumber, itineraries, populationSizeNumber);
 
             t = new Thread(geneticAlgorithm);
             t.start();
@@ -164,25 +162,26 @@ public class Controller {
     }
 
     @FXML
-    public void stop(ActionEvent event){
+    public void stop(ActionEvent event) {
         reset();
     }
 
-    public void reset(){
-        if(obs != null){
+    public void reset() {
+        if (obs != null) {
             obs.clearItineraries();
             itineraries.deleteObserver(obs);
         }
-        if(distancies != null){
+        if (distancies != null) {
             distancies.clear();
         }
-        if(t!=null){
+        if (t != null) {
             t.interrupt();
         }
     }
+
     @FXML
-    public void chooseAlgorithm1(ActionEvent event){
-        check1 = (CheckBox) ((CheckBox)event.getSource()).getScene().lookup("#check1");
+    public void chooseAlgorithm1(ActionEvent event) {
+        check1 = (CheckBox) ((CheckBox) event.getSource()).getScene().lookup("#check1");
         check2.setSelected(false);
         System.out.println("Simulated Annealing choosed");
         label1.setText("Temperature :");
@@ -199,9 +198,10 @@ public class Controller {
         coolingRate.setText("0.99");
         bearingNb.setText("10");
     }
+
     @FXML
-    public void chooseAlgorithm2(ActionEvent event){
-        check2 = (CheckBox) ((CheckBox)event.getSource()).getScene().lookup("#check2");
+    public void chooseAlgorithm2(ActionEvent event) {
+        check2 = (CheckBox) ((CheckBox) event.getSource()).getScene().lookup("#check2");
         check1.setSelected(false);
         System.out.println("Genetic Algorithm choosed");
 
@@ -222,12 +222,12 @@ public class Controller {
     }
 
     @FXML
-    public void displayChart(ActionEvent event){
+    public void displayChart(ActionEvent event) {
         chart.getData().clear();
-        XYChart.Series<String,Number> series = new XYChart.Series<String,Number>();
+        XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
         //for(int i = 0 ; i<distancies.size();i++){
-        for(int i = 0 ; i<10000;i++){
-            if(i%50==0 ) {
+        for (int i = 0; i < 10000; i++) {
+            if (i % 50 == 0) {
                 series.getData().add(new XYChart.Data<String, Number>(String.valueOf(i), distancies.get(i)));
             }
         }
@@ -236,18 +236,17 @@ public class Controller {
         chart.getData().add(series);
     }
 
-    public int getNbIterations(){
+    public int getNbIterations() {
         int iterations = 0;
 
         String tmp = nbIterations.getText();
 
         try {
-            if(tmp.matches("[0-9]*")){
+            if (tmp.matches("[0-9]*")) {
                 iterations = Integer.parseInt(tmp);
 
             }
-        }
-        catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return 0;
         }
         return iterations;
@@ -255,50 +254,48 @@ public class Controller {
 
     }
 
-    public int getTemperature(){
+    public int getTemperature() {
         int temperatureNumber = 0;
 
         String tmp = temperature.getText();
 
         try {
-            if(tmp.matches("[0-9]*")){
+            if (tmp.matches("[0-9]*")) {
                 temperatureNumber = Integer.parseInt(tmp);
 
             }
-        }
-        catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return 0;
         }
         return temperatureNumber;
 
     }
 
-    public float getCoolingRate(){
+    public float getCoolingRate() {
         float coolingRateNumber = 0;
 
         String tmp = coolingRate.getText();
 
         try {
             coolingRateNumber = Float.parseFloat(tmp);
-        }
-        catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return 0;
         }
         return coolingRateNumber;
 
     }
-    public int getBearing(){
+
+    public int getBearing() {
         int bearingNumber = 0;
 
         String tmp = bearingNb.getText();
 
         try {
-            if(tmp.matches("[0-9]*")){
+            if (tmp.matches("[0-9]*")) {
                 bearingNumber = Integer.parseInt(tmp);
 
             }
-        }
-        catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return 0;
         }
         return bearingNumber;
@@ -306,19 +303,14 @@ public class Controller {
     }
 
 
-
-    public void getParametersAnnealing(){
-       this.numberOfIteration = getNbIterations();
-       this.temperatureNumber = getTemperature();
-       this.coolingRateNumber = getCoolingRate();
-       this.bearingNumber = getBearing();
-       System.out.println("Cooling rate : "+coolingRateNumber);
-        System.out.println("number of iteration : "+numberOfIteration);
-        System.out.println("number of temperature : "+temperatureNumber);
-        System.out.println("Bearing "+ bearingNumber);
+    public void getParametersAnnealing() {
+        this.numberOfIteration = getNbIterations();
+        this.temperatureNumber = getTemperature();
+        this.coolingRateNumber = getCoolingRate();
+        this.bearingNumber = getBearing();
     }
 
-    public void getParametersGenetic(){
+    public void getParametersGenetic() {
         this.numberOfIteration = getNbIterations();
         this.populationSizeNumber = getTemperature();
         this.probaCrossNumber = Math.round(getCoolingRate());
@@ -326,36 +318,28 @@ public class Controller {
     }
 
     private void getFileChoice() {
-        try{
-            switch (fileChoice.getValue()){
+        try {
+            switch (fileChoice.getValue()) {
                 case "Data01":
-                    fileName="src/data/data01.txt";
-                    System.out.println("1 1 1 ");
+                    fileName = "src/data/data01.txt";
                     break;
                 case "Data02":
-                    fileName="src/data/data02.txt";
-                    System.out.println("222 ");
+                    fileName = "src/data/data02.txt";
                     break;
                 case "Data03":
-                    fileName="src/data/data03.txt";
-                    System.out.println("333 ");
+                    fileName = "src/data/data03.txt";
                     break;
                 case "Data04":
-                    fileName="src/data/data04.txt";
-                    System.out.println("444 ");
+                    fileName = "src/data/data04.txt";
                     break;
                 case "Data05":
-                    System.out.println("555 ");
-                    fileName="src/data/data05.txt";
+                    fileName = "src/data/data05.txt";
                     break;
                 default:
-                    fileName="src/data/data01.txt";
+                    fileName = "src/data/data01.txt";
             }
-
-        }
-        catch (NullPointerException e){
-            fileName="src/data/data01.txt";
+        } catch (NullPointerException e) {
+            fileName = "src/data/data01.txt";
         }
     }
-
 }

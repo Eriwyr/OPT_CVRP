@@ -3,11 +3,8 @@ package sample;
 import dataStructure.Client;
 import dataStructure.Itineraries;
 import dataStructure.Itinerary;
-import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -15,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ItinerariesObserver implements Observer{
+public class ItinerariesObserver implements Observer {
     Canvas canvas;
     GraphicsContext gc;
     Itineraries itineraries;
@@ -46,11 +43,11 @@ public class ItinerariesObserver implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        if(callNumber % refreshRate ==0) {
+        if (callNumber % refreshRate == 0) {
             drawItineraries();
         }
         callNumber++;
-        if(callNumber == numberOfIteration){
+        if (callNumber == numberOfIteration) {
             drawItineraries();
         }
         distances.add(itineraries.calcDistance());
@@ -63,7 +60,6 @@ public class ItinerariesObserver implements Observer{
             for (int i = 0; i < itineraries.getItineraries().size(); i++) {
                 color[i] = Color.color(Math.random(), Math.random(), Math.random());
             }
-            System.out.println("ok");
             isFirst = false;
         }
 
@@ -103,12 +99,9 @@ public class ItinerariesObserver implements Observer{
 
         gc.fillText("Total distance : " + String.valueOf(itineraries.calcDistance()), 24, 94 + 30 * j);
 
-
     }
 
-
-
-    public void clearItineraries(){
-        gc.clearRect(0,0,gc.getCanvas().getWidth(),gc.getCanvas().getHeight());
+    public void clearItineraries() {
+        gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
     }
 }

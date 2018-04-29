@@ -2,19 +2,19 @@ package dataStructure.neighborhood;
 
 import dataStructure.Itineraries;
 
-public class InversionWithinItinerary implements NeighborhoodStrategie{
+public class InversionWithinItinerary implements NeighborhoodStrategie {
 
 
     @Override
     public Itineraries computeNeighbor(Itineraries itinerariesSource) {
         Itineraries newItineraries = null;
-        int quantityItinerary = maxCapacity +1;
+        int quantityItinerary = maxCapacity + 1;
 
         while (quantityItinerary > maxCapacity) {
             newItineraries = new Itineraries(itinerariesSource);
             int indexItinerary = random.nextInt(newItineraries.size());
 
-            if (itinerariesSource.get(indexItinerary).size()>1) {
+            if (itinerariesSource.get(indexItinerary).size() > 1) {
 
 
                 int index1 = random.nextInt(newItineraries.get(indexItinerary).size());

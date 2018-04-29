@@ -5,7 +5,8 @@ import dataStructure.Client;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 public class ParseFiles {
 
@@ -39,7 +40,7 @@ public class ParseFiles {
     public LinkedList<Client> createClientsFromFile() throws IOException {
         LinkedList<Client> clients = new LinkedList<Client>();
 
-        LinkedList<String>lines = readFile(); //each line is client informations
+        LinkedList<String> lines = readFile(); //each line is client informations
 
         lines.remove(0); //remove header
 

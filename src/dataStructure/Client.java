@@ -1,7 +1,5 @@
 package dataStructure;
 
-import static java.util.stream.Collectors.joining;
-
 public class Client {
 
     private int id;
@@ -42,13 +40,8 @@ public class Client {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append(this.id)
-                /*.append(" (")
-                .append(this.quantity)
-                .append(")")*/;
+        stringBuilder.append(this.id);
 
         return stringBuilder.toString();
-
     }
 }
