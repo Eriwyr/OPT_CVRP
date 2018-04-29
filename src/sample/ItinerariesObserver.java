@@ -82,14 +82,16 @@ public class ItinerariesObserver implements Observer{
 
         int j = 0;
         for (Itinerary itinerary : itineraries.getItineraries()) {
-            tempClient = logisticCenter;
             gc.setFill(color[j]);
+
+            tempClient = logisticCenter;
             gc.fillText("Itinerary " + j + " : " + String.valueOf(itinerary.calcTotaDistance(itinerary.getLogisticCenter())), 24, 94 + 30 * j);
 
             for (Client client : itinerary.getItinerary()) {
+                gc.setStroke(color[j]);
                 gc.fillOval(client.getX() * scale + xOffset, client.getY() * scale + yOffset, clientScale, clientScale);
                 gc.strokeLine(client.getX() * scale + xOffset, client.getY() * scale + yOffset, tempClient.getX() * scale + xOffset, tempClient.getY() * scale + yOffset);
-                gc.setStroke(color[j]);
+
                 gc.fillText(String.valueOf(client.getId()), client.getX() * scale + xOffset, client.getY() * scale + yOffset);
                 tempClient = client;
 

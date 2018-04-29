@@ -80,7 +80,9 @@ public class Controller {
         distancies = new ArrayList<>();
         this.numberOfIteration = 0;
         this.temperatureNumber =0;
+        fileName = "src/data/data01.txt";
     }
+
 
 
 
@@ -323,29 +325,35 @@ public class Controller {
     }
 
     private void getFileChoice() {
-        switch (fileChoice.getValue()){
-            case "Data01":
-                fileName="src/data/data01.txt";
-                System.out.println("1 1 1 ");
-                break;
-            case "Data02":
-                fileName="src/data/data02.txt";
-                System.out.println("222 ");
-                break;
-            case "Data03":
-                fileName="src/data/data03.txt";
-                System.out.println("333 ");
-                break;
-            case "Data04":
-                fileName="src/data/data04.txt";
-                System.out.println("444 ");
-                break;
-            case "Data05":
-                System.out.println("555 ");
-                fileName="src/data/data05.txt";
-                break;
-            default:
-                fileName="src/data/data01.txt";
+        try{
+            switch (fileChoice.getValue()){
+                case "Data01":
+                    fileName="src/data/data01.txt";
+                    System.out.println("1 1 1 ");
+                    break;
+                case "Data02":
+                    fileName="src/data/data02.txt";
+                    System.out.println("222 ");
+                    break;
+                case "Data03":
+                    fileName="src/data/data03.txt";
+                    System.out.println("333 ");
+                    break;
+                case "Data04":
+                    fileName="src/data/data04.txt";
+                    System.out.println("444 ");
+                    break;
+                case "Data05":
+                    System.out.println("555 ");
+                    fileName="src/data/data05.txt";
+                    break;
+                default:
+                    fileName="src/data/data01.txt";
+            }
+
+        }
+        catch (NullPointerException e){
+            fileName="src/data/data01.txt";
         }
     }
 

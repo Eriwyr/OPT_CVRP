@@ -133,7 +133,7 @@ public class SimulatedAnnealing implements Runnable{
         //xi.setItineraries(xi.getItineraries());
         //System.out.println("Final distance : "+distanceX);
         /*System.out.println("xi : ");*/
-        //System.out.println(xi);
+        System.out.println(xi);
         /*random = new Random();
         this.itineraries = itineraries;
         this.neighborhoodStrategie= new InversionWithinItinerary();
