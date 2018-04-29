@@ -60,7 +60,7 @@ public class ItinerariesObserver implements Observer{
     public void drawItineraries() {
         if (isFirst) {
             color = new Color[itineraries.size()];
-            for (int i = 0; i < itineraries.size(); i++) {
+            for (int i = 0; i < itineraries.getItineraries().size(); i++) {
                 color[i] = Color.color(Math.random(), Math.random(), Math.random());
             }
             System.out.println("ok");
