@@ -136,7 +136,7 @@ public class Controller {
             this.itineraries = new Itineraries();
             Canvas canvas = (Canvas) ((Button) event.getSource()).getScene().lookup("#canvas");
             System.out.println(canvas);
-            obs = new ItinerariesObserver(canvas, itineraries,100,numberOfIteration,distancies);
+            obs = new ItinerariesObserver(canvas, itineraries,500,numberOfIteration,distancies);
             itineraries.addObserver(obs);
             loadItinirariesFromFile();
             SimulatedAnnealing sim = new SimulatedAnnealing(itineraries, numberOfIteration, bearingNumber, temperatureNumber, coolingRateNumber);
@@ -225,8 +225,9 @@ public class Controller {
     public void displayChart(ActionEvent event){
         chart.getData().clear();
         XYChart.Series<String,Number> series = new XYChart.Series<String,Number>();
-        for(int i = 0 ; i<distancies.size();i++){
-            if(i%10==0) {
+        //for(int i = 0 ; i<distancies.size();i++){
+        for(int i = 0 ; i<10000;i++){
+            if(i%50==0 ) {
                 series.getData().add(new XYChart.Data<String, Number>(String.valueOf(i), distancies.get(i)));
             }
         }
