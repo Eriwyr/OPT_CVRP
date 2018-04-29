@@ -28,7 +28,7 @@ public class ParseFiles {
                 line = br.readLine();
             }
             String stringBuild = sb.toString();
-            return new LinkedList<>(Arrays.asList(stringBuild.split(System.getProperty("line.separator"))));
+            return new LinkedList<>(Arrays.asList(stringBuild.split("\n")));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -41,7 +41,6 @@ public class ParseFiles {
         LinkedList<Client> clients = new LinkedList<Client>();
 
         LinkedList<String> lines = readFile(); //each line is client informations
-
         lines.remove(0); //remove header
 
         String[] informations;

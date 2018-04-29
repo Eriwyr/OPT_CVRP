@@ -18,7 +18,7 @@ public class Main extends Application {
         setPrimaryStage(primaryStage); // **Set the Stage**
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         root.setStyle("-fx-background-color: #f0ede5;");
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("CVRP_CHABRIER_BERNIER");
         primaryStage.setScene(new Scene(root, 1340, 800));
         primaryStage.show();
 

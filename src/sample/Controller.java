@@ -127,7 +127,7 @@ public class Controller {
 
             getParametersAnnealing();
 
-            freshRate = numberOfIteration / 20;
+            freshRate = numberOfIteration / 5;
             this.itineraries = new Itineraries();
 
             Canvas canvas = (Canvas) ((Button) event.getSource()).getScene().lookup("#canvas");
