@@ -56,11 +56,11 @@ public class SimulatedAnnealing implements Runnable{
     @Override
     public void run() {
 
+        long startTime = System.currentTimeMillis();
+
         double distanceMin = xmin.calcDistance();
 
         System.out.println("Start distance : "+distanceMin);
-
-
 
         Itineraries xi = xmin ;
         Itineraries xi1;
@@ -83,14 +83,11 @@ public class SimulatedAnnealing implements Runnable{
 
 
 
-        //MoveClient neighborhood = new MoveClient();
-
         double fmin = itineraries.calcDistance();
         for(int k = 0 ; k<iterationNumber; k++){
             for(int l = 0 ; l<bearingNumber; l++){
 
                 int n = random.nextInt(listNeighborhoodStrategie.size());
-               // System.out.println(n);
                 neighborhood = listNeighborhoodStrategie.get(n);
 
 
@@ -106,7 +103,9 @@ public class SimulatedAnnealing implements Runnable{
 
 
                 } else {
-                    p = random.nextFloat();
+                    p = random.nextFloat()*temperature;
+
+                    //System.out.println("exp = "+exp(-deltaDistance/temperature));
                     if (p<exp(-deltaDistance/temperature)) {
                         xi.setItineraries(y.getItineraries());
 
@@ -123,12 +122,18 @@ public class SimulatedAnnealing implements Runnable{
             }
 
             temperature = temperature*coolingRate;
+
+
         }
 
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.println("fin : "+elapsedTime);
+
         //xi.setItineraries(xi.getItineraries());
-        System.out.println("Final distance : "+distanceX);
+        //System.out.println("Final distance : "+distanceX);
         /*System.out.println("xi : ");*/
-        System.out.println(xi);
+        //System.out.println(xi);
         /*random = new Random();
         this.itineraries = itineraries;
         this.neighborhoodStrategie= new InversionWithinItinerary();
