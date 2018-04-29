@@ -2,23 +2,19 @@ package sample;
 
 import algorithms.GeneticAlgorithm;
 import algorithms.SimulatedAnnealing;
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 import dataStructure.Client;
 import dataStructure.Itineraries;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import manageFiles.ParseFiles;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -36,7 +32,9 @@ public class Controller {
     private int populationSizeNumber;
     private int probaCrossNumber;
     private int reproductionNumber;
+    private String fileName;
 
+    ObservableList<String> filesChoice = FXCollections.observableArrayList("Data01","Data02","Data03","Data04","Data05");
 
     @FXML
     private CheckBox check1;
@@ -72,6 +70,9 @@ public class Controller {
     @FXML
     LineChart<String,Number> chart;
 
+    @FXML
+    private ChoiceBox<String> fileChoice;
+
     public Controller() {
 
         obs = null;
@@ -81,8 +82,15 @@ public class Controller {
         this.temperatureNumber =0;
     }
 
+
+
+    public void initialize(){
+        fileChoice.setItems(filesChoice);
+    }
+
     public void loadItinirariesFromFile(){
-        ParseFiles parser = new ParseFiles("src/data/data01.txt");
+        getFileChoice();
+        ParseFiles parser = new ParseFiles(fileName);
         try {
             clientsFromFile =  parser.createClientsFromFile();
             itineraries.generateFirstItineraries(clientsFromFile);
@@ -98,7 +106,8 @@ public class Controller {
     }
 
     public void loadClientsFromFile(){
-        ParseFiles parser = new ParseFiles("src/data/data01.txt");
+        getFileChoice();
+        ParseFiles parser = new ParseFiles(fileName);
         try {
             clientsFromFile =  parser.createClientsFromFile();
             //itineraries.generateFirstItineraries(clientsFromFile);
@@ -121,7 +130,7 @@ public class Controller {
         if(check1.isSelected()) {
 
             getParametersAnnealing();
-
+            System.out.println("TEMPRERATURE : "+temperatureNumber);
             this.itineraries = new Itineraries();
             Canvas canvas = (Canvas) ((Button) event.getSource()).getScene().lookup("#canvas");
             System.out.println(canvas);
@@ -140,7 +149,7 @@ public class Controller {
             Canvas canvas = (Canvas) ((Button)event.getSource()).getScene().lookup("#canvas");
             System.out.println(canvas);
             //itineraries = new Itineraries();
-            obs = new ItinerariesObserver(canvas,itineraries,100,numberOfIteration,distancies);
+            obs = new ItinerariesObserver(canvas,itineraries,500,numberOfIteration,distancies);
             itineraries.addObserver(obs);
             loadClientsFromFile();
             itineraries.generateRandomItineraries(clientsFromFile);
@@ -183,6 +192,10 @@ public class Controller {
         label3.setText("Bearing number(0-nbIterations) :");
         label3.setLayoutX(754);
         label3.setLayoutY(137);
+
+        temperature.setText("10");
+        coolingRate.setText("0.99");
+        bearingNb.setText("10");
     }
     @FXML
     public void chooseAlgorithm2(ActionEvent event){
@@ -309,5 +322,31 @@ public class Controller {
         this.reproductionNumber = getBearing();
     }
 
+    private void getFileChoice() {
+        switch (fileChoice.getValue()){
+            case "Data01":
+                fileName="src/data/data01.txt";
+                System.out.println("1 1 1 ");
+                break;
+            case "Data02":
+                fileName="src/data/data02.txt";
+                System.out.println("222 ");
+                break;
+            case "Data03":
+                fileName="src/data/data03.txt";
+                System.out.println("333 ");
+                break;
+            case "Data04":
+                fileName="src/data/data04.txt";
+                System.out.println("444 ");
+                break;
+            case "Data05":
+                System.out.println("555 ");
+                fileName="src/data/data05.txt";
+                break;
+            default:
+                fileName="src/data/data01.txt";
+        }
+    }
 
 }

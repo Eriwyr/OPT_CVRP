@@ -55,7 +55,7 @@ public class SimulatedAnnealing implements Runnable{
 
     @Override
     public void run() {
-
+        
         double distanceMin = xmin.calcDistance();
 
         System.out.println("Start distance : "+distanceMin);
