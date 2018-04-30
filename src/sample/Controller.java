@@ -194,7 +194,7 @@ public class Controller {
         label3.setLayoutX(754);
         label3.setLayoutY(137);
 
-        temperature.setText("10");
+        temperature.setText("130");
         coolingRate.setText("0.99");
         bearingNb.setText("10");
     }
@@ -216,7 +216,7 @@ public class Controller {
         label3.setLayoutY(137);
 
         temperature.setText("100");
-        coolingRate.setText("50");
+        coolingRate.setText("70");
         bearingNb.setText("80");
 
     }
@@ -225,8 +225,7 @@ public class Controller {
     public void displayChart(ActionEvent event) {
         chart.getData().clear();
         XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
-        //for(int i = 0 ; i<distancies.size();i++){
-        for (int i = 0; i < 10000; i++) {
+        for(int i = 0 ; i<distancies.size();i++){
             if (i % 50 == 0) {
                 series.getData().add(new XYChart.Data<String, Number>(String.valueOf(i), distancies.get(i)));
             }

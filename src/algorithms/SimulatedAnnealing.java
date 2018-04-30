@@ -56,8 +56,6 @@ public class SimulatedAnnealing implements Runnable {
     @Override
     public void run() {
 
-        long startTime = System.currentTimeMillis();
-
         double distanceMin = xmin.calcDistance();
 
         System.out.println("Start distance : " + distanceMin);
@@ -122,10 +120,5 @@ public class SimulatedAnnealing implements Runnable {
 
 
         }
-
-        long stopTime = System.currentTimeMillis();
-        long elapsedTime = stopTime - startTime;
-        System.out.println("fin : " + elapsedTime);
-
     }
 }
